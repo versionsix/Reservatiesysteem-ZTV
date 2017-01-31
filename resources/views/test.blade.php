@@ -1,1 +1,1 @@
-TEST - Foo
+TEST - Foo - BAR
