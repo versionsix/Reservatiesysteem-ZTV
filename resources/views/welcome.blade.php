@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Let's go with the tickets
                 </div>
 
                 <div class="links">
