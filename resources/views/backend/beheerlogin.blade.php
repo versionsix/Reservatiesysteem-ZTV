@@ -3,23 +3,69 @@
 @section('title', 'Beheer')
 
 @section('content')
-    <div class="container">
+    <div class="container" class="beheerContainer">
         <div class="row">
-            <div class="col-md-offset-3 col-md-7">
-                <div class="form-login">
-                    <h4>Backend login</h4>
-                    <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="Gebruikersnaam" />
-                    </br>
-                    <input type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="Wachtwoord" />
-                    </br>
-                    <div class="wrapper">
-            <span class="group-btn">
-                <a href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></a>
-            </span>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Login beheer</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                            {{ csrf_field() }}
+
+                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email" class="form-control" name="email" value="test@example.com" value="{{ old('email') }}" required autofocus>
+
+                                    @if ($errors->has('email'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <label for="password" class="col-md-4 control-label">Password</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control" name="password" value="secret" required>
+
+                                    @if ($errors->has('password'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Onthoud Mij
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Login
+                                    </button>
+
+                                    <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                        Wachtwoord vergeten?
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 @endsection

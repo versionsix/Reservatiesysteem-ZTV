@@ -3,7 +3,7 @@
 @section('title', 'Homepage')
 
 @section('content')
-
+    <div class="container">
 <div class="row">
     <div class="col-lg-12 text-center">
         <h1>Zammelse Toneel Vrienden </h1>
@@ -37,5 +37,6 @@
         </table>
     </div>
 </div>
+    </div>
 <!-- /.row -->
 @endsection

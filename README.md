@@ -2,7 +2,7 @@
 ## Repository van Reservatiesysteem ZTV
 
 - de centrale opslag van onze code
-- de ideale plaats voor ...
+- Link bootstrap thema: hhttps://www.bootstrapzero.com/bootstrap-template/admin
 
 
 Note:

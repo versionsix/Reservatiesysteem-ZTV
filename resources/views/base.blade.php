@@ -14,6 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
+    <link href="/css/backend.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -24,7 +25,12 @@
         }
 
     </style>
-
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,7 +47,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -53,17 +60,28 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <!--
-                <li>
-                    <a href="#">About</a>
-                </li>
-                -->
+
                 <li class="{{ Request::is('handleiding') ? 'active' : '' }}">
                     <a href="{{ action("FrontendController@ShowHandleidingpage") }}">Handleiding</a>
                 </li>
                 <li class="{{ Request::is('contact') ? 'active' : '' }}">
                     <a href="{{ action("FrontendController@ShowContactpage") }}">Contact</a>
                 </li>
+                @if (Auth::guest())
+                @else
+                    <li>
+                        <a href="{{ url('/logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            Uitloggen
+                        </a>
+
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                @endif
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -72,18 +90,23 @@
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+
     @yield('content')
 
 
-</div>
 <!-- /.container -->
 <!-- Begin page content -->
 <
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">© ZTV {{ date('Y') }}. <a href="{{ action("BackendController@ShowBeheerLogin") }}">Login backend</a></p>
+        <p class="text-muted">© ZTV {{ date('Y') }}.
+            @if (Auth::guest())
+                <a href="{{ action("BackendController@ShowBeheerLogin") }}">Login backend</a>
+            @else
+                <a href="{{ action("BackendController@ShowBeheer") }}">Backend Beheerconsole</a>
+            @endif
+        </p>
     </div>
 </footer>
 <!-- jQuery Version 1.11.1 -->
