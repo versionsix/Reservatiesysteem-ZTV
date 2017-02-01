@@ -19,6 +19,7 @@ Route::get('/contact', 'FrontendController@ShowContactpage');
 Route::get('/handleiding', 'FrontendController@ShowHandleidingpage');
 
 //Backend Routes
+Route::get('/beheer/login', 'BackendController@ShowBeheerLogin');
 Route::get('/beheer', 'BackendController@ShowBeheer');
 
 //Test Routes

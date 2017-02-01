@@ -12,8 +12,8 @@
     <title>ZTV - @yield('title')</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/footer.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/footer.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -83,14 +83,14 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">© ZTV {{ date('Y') }}. <a href="{{ action("BackendController@ShowBeheer") }}">Login backend</a></p>
+        <p class="text-muted">© ZTV {{ date('Y') }}. <a href="{{ action("BackendController@ShowBeheerLogin") }}">Login backend</a></p>
     </div>
 </footer>
 <!-- jQuery Version 1.11.1 -->
-<script src="js/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 </body>
 

@@ -10,7 +10,10 @@ class BackendController extends Controller
     {
         return view('backend/beheer');
     }
-
+    public function ShowBeheerLogin()
+    {
+        return view('backend/beheerlogin');
+    }
 
     /**
      * Display a listing of the resource.
