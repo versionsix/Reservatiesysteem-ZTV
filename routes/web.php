@@ -11,8 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+//Frontend Routes
+
+Route::get('/', 'FrontendController@ShowHomepage');
+Route::get('/contact', 'FrontendController@ShowContactpage');
+
+//Backend Routes
+
+
+//Test Routes
 Route::get('/test', 'TestController@test');

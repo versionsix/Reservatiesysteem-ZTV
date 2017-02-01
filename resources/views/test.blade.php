@@ -1,1 +1,3 @@
-TEST - Foo - BAR
+@extends('base')
+
+@section('title', 'Page Title - Test')
