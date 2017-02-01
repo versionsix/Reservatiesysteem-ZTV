@@ -4,24 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FrontendController extends Controller
+class BackendController extends Controller
 {
-
-    public function ShowHomepage()
+    public function ShowBeheer()
     {
-        return view('frontend/homepage');
+        return view('backend/beheer');
     }
-
-    public function ShowContactpage()
-    {
-        return view('frontend/contact');
-    }
-    public function ShowHandleidingpage()
-    {
-        return view('frontend/handleiding');
-    }
-
-
 
 
     /**

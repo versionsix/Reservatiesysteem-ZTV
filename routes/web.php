@@ -16,9 +16,10 @@
 
 Route::get('/', 'FrontendController@ShowHomepage');
 Route::get('/contact', 'FrontendController@ShowContactpage');
+Route::get('/handleiding', 'FrontendController@ShowHandleidingpage');
 
 //Backend Routes
-
+Route::get('/beheer', 'BackendController@ShowBeheer');
 
 //Test Routes
 Route::get('/test', 'TestController@test');

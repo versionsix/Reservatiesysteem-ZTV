@@ -14,6 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <style>
@@ -21,6 +22,7 @@
             padding-top: 70px;
             /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
+
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,19 +47,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Foo Bar</a>
+            <a class="navbar-brand" href="{{ action("FrontendController@ShowHomepage") }}">
+                Zammelse toneelvrienden</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                <!--
                 <li>
                     <a href="#">About</a>
                 </li>
-                <li>
-                    <a href="#">Services</a>
+                -->
+                <li class="{{ Request::is('handleiding') ? 'active' : '' }}">
+                    <a href="{{ action("FrontendController@ShowHandleidingpage") }}">Handleiding</a>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
+                <li class="{{ Request::is('contact') ? 'active' : '' }}">
+                    <a href="{{ action("FrontendController@ShowContactpage") }}">Contact</a>
                 </li>
             </ul>
         </div>
@@ -78,7 +83,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
+        <p class="text-muted">© ZTV {{ date('Y') }}. <a href="{{ action("BackendController@ShowBeheer") }}">Login backend</a></p>
     </div>
 </footer>
 <!-- jQuery Version 1.11.1 -->
