@@ -18,6 +18,7 @@ class CreateVoorstellingen extends Migration
             $table->string('datum');
             $table->string('uur');
             $table->enum('enabled', ['true', 'false']);
+            $table->enum('indelingType', ['vrije_toegang', 'vrije_zetelkeuze', 'vaste_zetelkeuze']);
             $table->timestamps();
         });
     }
