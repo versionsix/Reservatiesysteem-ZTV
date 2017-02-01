@@ -8,7 +8,7 @@ class TestController extends Controller
 {
     public function test()
     {
-        return view('frontend.test);
+        return view('frontend.test');
     }
 
     /**
