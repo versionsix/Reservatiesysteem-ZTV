@@ -3,25 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
 
     public function ShowHomepage()
     {
-        return view('frontend/homepage');
+        $voorstellingen = DB::table('voorstellingen')->where('enabled', 'true')->get();
+        //return $voorstellingen;
+        return view('frontend/homepage', ['voorstellingen' => $voorstellingen]);
     }
 
     public function ShowContactpage()
     {
         return view('frontend/contact');
     }
+    public function ShowVoorstellingpage($id)
+    {
+        $voorstelling = DB::table('voorstellingen')->where('id', $id)->first();
+        return view('frontend/voorstelling', ['voorstelling' => $voorstelling]);
+    }
     public function ShowHandleidingpage()
     {
         return view('frontend/handleiding');
     }
 
-
+    public function ShowBeheerLogin()
+    {
+        return view('backend/beheerlogin');
+    }
 
 
     /**

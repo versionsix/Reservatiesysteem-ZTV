@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 
 class BackendController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function ShowBeheer()
     {
         return view('backend/beheer');
     }
-    public function ShowBeheerLogin()
-    {
-        return view('backend/beheerlogin');
-    }
+
 
     /**
      * Display a listing of the resource.

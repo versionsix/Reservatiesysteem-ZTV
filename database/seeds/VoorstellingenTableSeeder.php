@@ -16,5 +16,15 @@ class VoorstellingenTableSeeder extends Seeder
             'datum' => 'woensdag 25 jan	',
             'uur' => '14.00 uur',
         ]);
+        DB::table('voorstellingen')->insert([
+            'enabled' => 'true',
+            'datum' => 'donderdag 26 jan	',
+            'uur' => '14.00 uur',
+        ]);
+        DB::table('voorstellingen')->insert([
+            'enabled' => 'true',
+            'datum' => 'vrijdag 27 jan	',
+            'uur' => '19.00 uur',
+        ]);
     }
 }

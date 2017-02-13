@@ -103,7 +103,7 @@
     <div class="container">
         <p class="text-muted">© ZTV {{ date('Y') }}.
             @if (Auth::guest())
-                <a href="{{ action("BackendController@ShowBeheerLogin") }}">Login backend</a>
+                <a href="{{ action("FrontendController@ShowBeheerLogin") }}">Login backend</a>
             @else
                 <a href="{{ action("BackendController@ShowBeheer") }}">Backend Beheerconsole</a>
             @endif

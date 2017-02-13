@@ -19,8 +19,12 @@ Route::get('/', 'FrontendController@ShowHomepage');
 Route::get('/contact', 'FrontendController@ShowContactpage');
 Route::get('/handleiding', 'FrontendController@ShowHandleidingpage');
 
+/* voorstelling routes*/
+Route::get('/voorstelling/{id}', 'FrontendController@ShowVoorstellingpage');
+
+
 //Backend Routes
-Route::get('/beheer/login', 'BackendController@ShowBeheerLogin');
+Route::get('/login', 'FrontendController@ShowBeheerLogin');
 Route::get('/beheer', 'BackendController@ShowBeheer');
 
 //Test Routes
@@ -31,7 +35,7 @@ Route::get('/home', 'HomeController@index');
 
 
 // Authentication Routes...
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+//Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
