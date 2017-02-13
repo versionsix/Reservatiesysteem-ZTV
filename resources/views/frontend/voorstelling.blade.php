@@ -4,6 +4,6 @@
 
 @section('content')
     <div class="container">
-        {{ $id }}
+        {{ json_encode($performance) }}
     </div>
 @endsection

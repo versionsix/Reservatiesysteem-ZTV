@@ -9,9 +9,11 @@ class CreateSeatTable extends Migration {
 	{
 		Schema::create('seat', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('seatNumber')->unique();
+			$table->integer('seatNumber')->unique()->nullable();
 			$table->integer('rowNumber');
 			$table->integer('columnNumber');
+			$table->enum('bookable', array('true', 'false'));
+			$table->integer('deck_id')->unsigned();
 		});
 	}
 

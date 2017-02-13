@@ -22,7 +22,7 @@ class FrontendController extends Controller
     public function ShowVoorstellingpage($id)
     {
         $performance = DB::table('performance')->where('id', $id)->first();
-        return view('frontend/voorstelling', ['voorstelling' => $performance]);
+        return view('frontend/voorstelling', ['performance' => $performance]);
     }
     public function ShowHandleidingpage()
     {
