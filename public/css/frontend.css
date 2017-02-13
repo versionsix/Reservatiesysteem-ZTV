@@ -1,3 +1,35 @@
 .progress {
     margin-bottom: 0 !important;
 }
+.table-borderless tbody tr td,
+.table-borderless tbody tr th,
+.table-borderless thead tr th,
+.table-borderless thead tr td,
+.table-borderless tfoot tr th,
+.table-borderless tfoot tr td {
+    border: none;
+}
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.seatPadding {
+    padding: 2px ;
+
+}
+.seatButton {
+    height: 30px ;
+    width: 30px ;
+}
+.seatTable {
+    padding: 2px !important;
+}
+#podium{
+    background-color: #ed6363;
+    height: 2em;
+}
+.verticaltext {
+    writing-mode: vertical-rl;
+
+}

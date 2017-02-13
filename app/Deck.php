@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Create_deck_table extends Model {
+class Deck extends Model {
 
 	protected $table = 'deck';
 	public $timestamps = false;

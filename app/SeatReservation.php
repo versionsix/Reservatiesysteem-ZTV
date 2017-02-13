@@ -4,7 +4,7 @@ namespace app;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Create_seatReservation_table extends Model {
+class SeatReservation extends Model {
 
 	protected $table = 'seatReservation';
 	public $timestamps = true;

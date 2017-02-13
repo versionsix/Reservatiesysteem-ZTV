@@ -4,7 +4,7 @@ namespace app;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Create_performance_table extends Model {
+class Performance extends Model {
 
 	protected $table = 'performance';
 	public $timestamps = true;

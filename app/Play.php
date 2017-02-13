@@ -4,7 +4,7 @@ namespace app;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Create_play_table extends Model {
+class Play extends Model {
 
 	protected $table = 'play';
 	public $timestamps = false;
