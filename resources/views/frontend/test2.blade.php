@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <pre>
-    {{$data}}
+    {{json_encode($data, JSON_PRETTY_PRINT)}}
 </pre>
 </div>
 @endsection

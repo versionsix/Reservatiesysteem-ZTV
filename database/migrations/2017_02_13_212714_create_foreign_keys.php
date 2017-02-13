@@ -15,8 +15,8 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('seat', function(Blueprint $table) {
 			$table->foreign('deck_id')->references('id')->on('deck')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('reservationCustomer', function(Blueprint $table) {
 			$table->foreign('performance_id')->references('id')->on('performance')
@@ -25,6 +25,11 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
 			$table->foreign('seat_id')->references('id')->on('seat')
+						->onDelete('restrict')
+						->onUpdate('restrict');
+		});
+		Schema::table('seatReservation', function(Blueprint $table) {
+			$table->foreign('reservationCustomer_id')->references('id')->on('reservationCustomer')
 						->onDelete('restrict')
 						->onUpdate('restrict');
 		});
@@ -43,6 +48,9 @@ class CreateForeignKeys extends Migration {
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
 			$table->dropForeign('seatReservation_seat_id_foreign');
+		});
+		Schema::table('seatReservation', function(Blueprint $table) {
+			$table->dropForeign('seatReservation_reservationCustomer_id_foreign');
 		});
 	}
 }

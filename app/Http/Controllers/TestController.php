@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
 class TestController extends Controller
 {
     public function test2() {
-        //$deck = Deck::find(1);
-        $seat = Seat::with('deck')->first();
+        $seat = Seat::with('deck')->whereHas('deck' , function ($query) {
+                $query->where('deckNumber','=','0');
+        })->get();
+
         return view('frontend.test2')
             ->with('data', $seat);
     }
