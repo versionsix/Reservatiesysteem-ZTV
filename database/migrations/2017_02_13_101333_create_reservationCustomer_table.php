@@ -18,6 +18,7 @@ class CreateReservationCustomerTable extends Migration {
 			$table->string('email');
 			$table->string('telephoneNumber');
 			$table->string('comment');
+			$table->timestamps();
 		});
 	}
 

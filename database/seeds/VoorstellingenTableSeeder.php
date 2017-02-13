@@ -11,7 +11,7 @@ class VoorstellingenTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('voorstellingen')->insert([
+        DB::table('performance')->insert([
             'enabled' => 'true',
             'datum' => 'woensdag 25 jan	',
             'uur' => '14.00 uur',

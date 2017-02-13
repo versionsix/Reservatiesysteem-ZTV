@@ -10,11 +10,11 @@ class CreatePerformanceTable extends Migration {
 		Schema::create('performance', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('play_id')->unsigned();
-			$table->timestamps();
 			$table->string('date');
 			$table->string('hour');
 			$table->enum('enabled', array('true', 'false'));
 			$table->enum('seatingType', array('free_admission', 'free_seat_choice', 'fixed_seat_choice'));
+			$table->timestamps();
 		});
 	}
 

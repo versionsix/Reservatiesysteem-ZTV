@@ -28,7 +28,7 @@
                 <tr>
                     <td>
                         <a href="/voorstelling/{{ $voorstelling->id }}">
-                        {{ $voorstelling->datum }} {{ $voorstelling->uur }}
+                        {{ $voorstelling->date }} {{ $voorstelling->hour }}
                         </a>
                     </td>
                     <td>

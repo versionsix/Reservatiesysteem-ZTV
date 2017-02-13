@@ -10,7 +10,7 @@ class FrontendController extends Controller
 
     public function ShowHomepage()
     {
-        $voorstellingen = DB::table('voorstellingen')->where('enabled', 'true')->get();
+        $voorstellingen = DB::table('performance')->where('enabled', 'true')->get();
         //return $voorstellingen;
         return view('frontend/homepage', ['voorstellingen' => $voorstellingen]);
     }
@@ -21,8 +21,8 @@ class FrontendController extends Controller
     }
     public function ShowVoorstellingpage($id)
     {
-        $voorstelling = DB::table('voorstellingen')->where('id', $id)->first();
-        return view('frontend/voorstelling', ['voorstelling' => $voorstelling]);
+        $performance = DB::table('performance')->where('id', $id)->first();
+        return view('frontend/voorstelling', ['voorstelling' => $performance]);
     }
     public function ShowHandleidingpage()
     {
