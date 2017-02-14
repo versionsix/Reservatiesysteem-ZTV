@@ -250,29 +250,6 @@
             </div>
         </div>
         <br/>
-        @foreach ($seats_deck_0 as $seats_row)
-            <?php
-            echo '<pre>';
-            echo print_r($seats_row);
-            echo '</pre>';
-            ?>
-        @endforeach
 
-
-        <br/>
-
-
-        <br/>
-        <?php
-        echo '<br /><br /><br />';
-
-
-        echo '<pre>';
-        echo print_r($seats_deck_0);
-        echo '</pre>';
-        echo '<pre>';
-        echo print_r($seats_deck_1);
-        echo '</pre>';
-        ?>
     </div>
 @endsection

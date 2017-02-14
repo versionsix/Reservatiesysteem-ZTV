@@ -120,41 +120,401 @@
                             <col width=100>
                         </colgroup>
                         <tbody>
+                        <!-- Deck 'Gelijkvloers' -->
                         <tr>
                             <td class="nopadding" style="background-color: #9BBA58; text-align: center;" colspan="31">
                                 Gelijkvloers
                             </td>
                         </tr>
-                        <!-- Generate seats for row 1 -->
-                        <tr style="background-color: #9BBA58;">
-                            @foreach ($seats_deck_1 as $seat)
-                                <td class="seatTable" colspan="2" align="center">
-                                        <button type="button" id="btn{{$seat->id}}"
-                                                class="seatButton btn btn-block btn-xs btn-warning">
-                                            {{$seat->id }}
-                                        </button>
-                                </td>
-                            @endforeach
-                            <td class="seatTable"></td>
-                        </tr>
-                        <!-- END Generate seats for row 1 -->
 
-                        <!-- Generate seats for row 2 -->
+                        <!-- Generate seats for row 1 -->
                         <tr style="background-color: #9BBA58;">
                             <td class="seatTable"></td>
 
                             @foreach ($seats_deck_1 as $seat)
                                 @if(!($seat->seatReservation->isEmpty() ))
-                                    {{$seat->seatReservation}}
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
                                 @endif
-                                <td class="seatTable" colspan="2" align="center">
-                                    <button type="button"
-                                            class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
-                                </td>
+
                             @endforeach
 
                         </tr>
+                        <!-- END Generate seats for row 1 -->
+
+                        <!-- Generate seats for row 2 -->
+                        <tr style="background-color: #9BBA58;">
+
+
+                            @foreach ($seats_deck_2 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
                         <!-- END Generate seats for row 2 -->
+
+                        <!-- Generate seats for row 3 -->
+                        <tr style="background-color: #9BBA58;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_3 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 3 -->
+
+                        <!-- Generate seats for row 4 -->
+                        <tr style="background-color: #9BBA58;">
+
+
+                            @foreach ($seats_deck_4 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
+                        <!-- END Generate seats for row 4 -->
+                        <!-- END Deck 'Gelijkvloers' -->
+
+                        <!-- Deck '1e verhoog'' -->
+                        <tr>
+                            <td class="nopadding" style="background-color: #FFC000; text-align: center;" colspan="31">
+                                1e verhoog
+                            </td>
+                        </tr>
+
+                        <!-- Generate seats for row 5 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_5 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 5 -->
+
+                        <!-- Generate seats for row 6 -->
+                        <tr style="background-color: #FFC000;">
+
+
+                            @foreach ($seats_deck_6 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
+                        <!-- END Generate seats for row 6 -->
+
+                        <!-- Generate seats for row 7 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_7 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 7 -->
+
+                        <!-- END Deck '1e verhoog' -->
+
+                        <!-- Deck '2e verhoog'' -->
+                        <tr>
+                            <td class="nopadding" style="background-color: #92CDDC; text-align: center;" colspan="31">
+                                2e verhoog
+                            </td>
+                        </tr>
+
+                        <!-- Generate seats for row 8 -->
+                        <tr style="background-color: #92CDDC;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_5 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 8 -->
+
+                        <!-- Generate seats for row 9 -->
+                        <tr style="background-color: #92CDDC;">
+
+
+                            @foreach ($seats_deck_6 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
+                        <!-- END Generate seats for row 9 -->
+
+                        <!-- Generate seats for row 9 -->
+                        <tr style="background-color: #92CDDC;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_7 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 9 -->
+
+                        <!-- END Deck '2e verhoog' -->
+
+                        <!-- Deck '3e verhoog'' -->
+                        <tr>
+                            <td class="nopadding" style="background-color: #FFC000; text-align: center;" colspan="31">
+                                3e verhoog
+                            </td>
+                        </tr>
+
+                        <!-- Generate seats for row 10 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_5 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 10 -->
+
+                        <!-- Generate seats for row 11 -->
+                        <tr style="background-color: #FFC000;">
+
+
+                            @foreach ($seats_deck_6 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
+                        <!-- END Generate seats for row 11 -->
+
+                        <!-- Generate seats for row 12 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_7 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 13 -->
+
+                        <!-- END Deck '3e verhoog' -->
+
+                        <!-- Deck '4e verhoog'' -->
+                        <tr>
+                            <td class="nopadding" style="background-color: #FFC000; text-align: center;" colspan="31">
+                                1e verhoog
+                            </td>
+                        </tr>
+
+                        <!-- Generate seats for row 14 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_14 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 5 -->
+
+                        <!-- Generate seats for row 15 -->
+                        <tr style="background-color: #FFC000;">
+
+
+                            @foreach ($seats_deck_6 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+                            <td class="seatTable"></td>
+                        </tr>
+                        <!-- END Generate seats for row 6 -->
+
+                        <!-- Generate seats for row 16 -->
+                        <tr style="background-color: #FFC000;">
+                            <td class="seatTable"></td>
+
+                            @foreach ($seats_deck_7 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-warning">{{$seat->id }}</button>
+                                    </td>
+                                @else
+                                    <td class="seatTable" colspan="2" align="center">
+                                        <button type="button"
+                                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>
+                                    </td>
+                                @endif
+
+                            @endforeach
+
+                        </tr>
+                        <!-- END Generate seats for row 16 -->
+
+                        <!-- END Deck '4e verhoog' -->
                         </tbody>
                     </table>
                 </div>

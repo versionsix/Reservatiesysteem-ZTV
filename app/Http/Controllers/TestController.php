@@ -46,17 +46,15 @@ class TestController extends Controller
 
         ->get()
         */
-        $id = 2;
-        $seats = Seat::with('deck')
-            ->with([ 'seatReservation.reservationCustomer' => function($query) use($id){
+        $id = 1;
+        $seats = Seat::with([ 'seatReservation.reservationCustomer' => function($query) use($id){
                 $query->where('performance_id', '=', $id);
-            }]);
+            }])->get();
 
-        //$seats = Seat::with('deck');
-        $seats_reserved = Seat::with('deck', 'seatReservation.performance')
-
+        $seats = Seat::with('seatReservation.reservationCustomer')
             ->get();
-            ;
+
+
         /*
         if ($seats->seat_reservation->reservation_customer->performance->isEmpty())
             return $seats->seat_reservation[0];
@@ -81,44 +79,14 @@ class TestController extends Controller
             ->get();
         */
         return view('frontend.test2')
-            ->with('data', $seats_reserved);
+            ->with('data', $seats);
     }
 
 
     public function test()
     {
-        $deck_0_id = DB::table('deck')->where('deckNumber', '=', '0')->first()->id;
-        $deck_1_id = DB::table('deck')->where('deckNumber', '=', '1')->first()->id;
-        $deck_2_id = DB::table('deck')->where('deckNumber', '=', '2')->first()->id;
-        $deck_3_id = DB::table('deck')->where('deckNumber', '=', '3')->first()->id;
-        $deck_4_id = DB::table('deck')->where('deckNumber', '=', '4')->first()->id;
-        $seats_deck_0 = array(
-            DB::table('seat')->where('deck_id', '=', $deck_0_id)->where('rowNumber', '=', 1)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_0_id)->where('rowNumber', '=', 2)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_0_id)->where('rowNumber', '=', 3)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_0_id)->where('rowNumber', '=', 4)->get());
-        $seats_deck_1 = array(
-            DB::table('seat')->where('deck_id', '=', $deck_1_id)->where('rowNumber', '=', 5)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_1_id)->where('rowNumber', '=', 6)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_1_id)->where('rowNumber', '=', 7)->get());
-        $seats_deck_2 = array(
-            DB::table('seat')->where('deck_id', '=', $deck_2_id)->where('rowNumber', '=', 8)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_2_id)->where('rowNumber', '=', 9)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_2_id)->where('rowNumber', '=', 10)->get());
-        $seats_deck_3 = array(
-            DB::table('seat')->where('deck_id', '=', $deck_3_id)->where('rowNumber', '=', 11)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_3_id)->where('rowNumber', '=', 12)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_3_id)->where('rowNumber', '=', 13)->get());
-        $seats_deck_4 = array(
-            DB::table('seat')->where('deck_id', '=', $deck_4_id)->where('rowNumber', '=', 14)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_4_id)->where('rowNumber', '=', 15)->get(),
-            DB::table('seat')->where('deck_id', '=', $deck_4_id)->where('rowNumber', '=', 16)->get());
-        return view('frontend.test')
-            ->with('seats_deck_0', $seats_deck_0)
-            ->with('seats_deck_1', $seats_deck_1)
-            ->with('seats_deck_2', $seats_deck_2)
-            ->with('seats_deck_3', $seats_deck_3)
-            ->with('seats_deck_4', $seats_deck_4);
+
+        return view('frontend.test');
     }
 
     /**

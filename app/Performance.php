@@ -12,11 +12,11 @@ class Performance extends Model {
 
 	public function play()
 	{
-        return $this->hasOne('App\Performance');
+        return $this->belongsTo('App\Performance', 'id', 'play_id');
 	}
     public function seatReservation()
     {
-        return $this->hasMany('App\SeatReservation');
+        return $this->hasMany('App\SeatReservation', 'performance_id', 'd');
     }
 
 

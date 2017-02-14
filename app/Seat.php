@@ -11,7 +11,7 @@ class Seat extends Model {
 	public $timestamps = false;
     public function seatReservation()
     {
-        return $this->hasMany('App\SeatReservation');
+        return $this->hasMany('App\SeatReservation', 'seat_id', 'id');
     }
 
 

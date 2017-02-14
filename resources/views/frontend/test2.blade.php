@@ -4,8 +4,7 @@
 
 @section('content')
     <div class="container">
-        <pre>
-            {{json_encode($data, JSON_PRETTY_PRINT)}}
+        <pre>{{json_encode($data, JSON_PRETTY_PRINT)}}
 
 
 
