@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Seat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,8 +22,24 @@ class FrontendController extends Controller
     }
     public function ShowVoorstellingpage($id)
     {
-        $performance = DB::table('performance')->where('id', $id)->first();
-        return view('frontend/voorstelling', ['performance' => $performance]);
+
+        $seats = Seat::with('deck')
+            ->with([ 'seatReservation.reservationcustomer' => function($query) use($id){
+                $query->where('performance_id', '=', $id);
+            }]);
+/*
+        $seats = Seat::with('deck', 'seatReservation.reservationCustomer');
+*/
+        //$seats = Seat::with('deck');
+        $seats_reserved = Seat::with('deck', 'seatReservation.performance')
+            ->whereHas('seatReservation.reservationCustomer.performance', function ($query) use($id) {
+                $query->where('id', '=', $id);
+            })
+            ->get();
+        //$performance = DB::table('performance')->where('id', $id)->first();
+        return view('frontend/voorstelling', [
+            'seats' => $seats,
+            'seats_reserved' => $seats_reserved]);
     }
     public function ShowHandleidingpage()
     {

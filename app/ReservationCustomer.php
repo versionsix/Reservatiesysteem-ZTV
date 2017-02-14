@@ -15,7 +15,7 @@ class ReservationCustomer extends Model {
 	}
     public function seatReservation()
     {
-        return $this->hasMany('App\SeatReservation');
+        return $this->hasMany('App\SeatReservation', 'id');
     }
     public function performance(){
         return $this->belongsTo('App\Performance');

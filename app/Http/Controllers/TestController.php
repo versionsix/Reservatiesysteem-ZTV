@@ -18,33 +18,42 @@ class TestController extends Controller
         //$performance = Performance::with('reservationCustomer','reservationCustomer.seatReservation')->get();
 
         //$reservationCustomer = ReservationCustomer::with('performance')->get();
-
+        /*
         $seats_reserved = Seat::with('deck', 'seatReservation.reservationCustomer.performance')
             ->whereHas('seatReservation.reservationCustomer.performance', function ($query) {
                 $query->where('id', '=', '2');
             })
             ->get();
-        $seats_base = Seat::with('deck')
-            ->whereHas('deck', function ($query) {
-                $query->where('deckNumber', '=', '0');
-            })
-              ->get();
-        $seats = $seats_reserved;
+        //$seats_reserved->load('deck');
+        $seats_all = Seat::with('deck');
+        $seats_all->load('deck');
+        $seats = $seats_all;
+        */
         /*
         $seats->load(['seatReservation.reservationCustomer.performance' => function ($query) {
             $query->where('id', '=', '5');
         }]);
         //$seats->load('seatReservation.reservationCustomer.performance');
 
-        /*
-        $seats = Seat::with('deck', 'seatReservation.reservationCustomer.performance')
-            ->whereHas('deck', function ($query) {
-                $query->where('deckNumber', '=', '0');
-            })
-            ->whereHas('seatReservation.reservationCustomer.performance', function ($query) {
-                $query->where('id', '=', '2');
-            })
+        $seats = Seat::with('deck', 'seatReservation.reservationCustomer.performance' )
+            ->whereHas('performance')
+
+        ->get()
+        */
+        $id = 2;
+        $seats = Seat::with('deck')
+            ->with([ 'seatReservation.reservationCustomer' => function($query) use($id){
+                $query->where('performance_id', '=', $id);
+            }]);
+
+        //$seats = Seat::with('deck');
+        $seats_reserved = Seat::with('deck', 'seatReservation.performance')
+
             ->get();
+            ;
+        /*
+        if ($seats->seat_reservation->reservation_customer->performance->isEmpty())
+            return $seats->seat_reservation[0];
         */
         /*
         $seats = Seat::with(['seatReservation.reservationCustomer.performance' =>
@@ -66,7 +75,7 @@ class TestController extends Controller
             ->get();
         */
         return view('frontend.test2')
-            ->with('data', $seats);
+            ->with('data', $seats_reserved);
     }
 
 
