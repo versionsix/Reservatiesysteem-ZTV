@@ -11,7 +11,7 @@ class SeatReservation extends Model {
 
     public function seat()
     {
-        return $this->hasMany('App\Seat');
+        return $this->hasOne('App\Seat');
     }
     public function reservationCustomer()
     {
@@ -20,11 +20,9 @@ class SeatReservation extends Model {
 
     public function performance()
     {
-        return $this->hasManyThrough(
-            'App\ReservationCustomer', 'App\Performance',
-            'id', 'performance_id', 'reservation_customer_id'
-        );
+        return $this->belongsTo('App\Performance');
     }
+
 
 
 }

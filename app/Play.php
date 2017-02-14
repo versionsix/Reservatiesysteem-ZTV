@@ -9,9 +9,9 @@ class Play extends Model {
 	protected $table = 'play';
 	public $timestamps = false;
 
-	public function play_hasMany_performance()
+	public function performance()
 	{
-		return $this->hasMany('Create_performance_table', 'play_id');
+		return $this->hasMany('App\Performance');
 	}
 
 }

@@ -36,15 +36,28 @@ class PlayTableSeeder extends Seeder
         DB::table('seatReservation')->insert([
             'seat_id' => 1,
             'reservation_customer_id' => 1,
+            'performance_id' => 1,
             'state' => 'reserved',
         ]);
         DB::table('seatReservation')->insert([
             'seat_id' => 2,
             'reservation_customer_id' => 1,
+            'performance_id' => 1,
             'state' => 'reserved',
         ]);
         DB::table('seatReservation')->insert([
             'seat_id' => 3,
+            'performance_id' => 1,
+            'state' => 'unavailable',
+        ]);
+        DB::table('seatReservation')->insert([
+            'seat_id' => 3,
+            'performance_id' => 2,
+            'state' => 'unavailable',
+        ]);
+        DB::table('seatReservation')->insert([
+            'seat_id' => 1,
+            'performance_id' => 2,
             'state' => 'unavailable',
         ]);
     }
@@ -81,41 +94,9 @@ class PlayTableSeeder extends Seeder
             'seatingType' => 'fixed_seat_choice',
         ]);
     }
-    public function createDecks(){
-        //Generate decks
-        if(DB::table('deck')->get()->count() == 0){
 
-            DB::table('deck')->insert([
-
-                [
-                    'deckNumber' => 0,
-                    'name' => 'Gelijkvloers',
-                ],
-                [
-                    'deckNumber' => 1,
-                    'name' => '1e verhoog',
-                ],
-                [
-                    'deckNumber' => 2,
-                    'name' => '2e verhoog',
-                ],
-                [
-                    'deckNumber' => 3,
-                    'name' => '3e verhoog',
-                ],
-                [
-                    'deckNumber' => 4,
-                    'name' => '4e verhoog',
-                ]
-
-            ]);
-
-        } else { echo "\e[31mTable is not empty, therefore NOT "; }
-
-    }
     public function createSeats(){
         //Generate seats deck by deck, row by row
-        $this->createDecks();
         //Fill array with seating
         $seat_rows = array //Rijen per array
         (
@@ -143,22 +124,22 @@ class PlayTableSeeder extends Seeder
         foreach ($seat_rows as $row_num=>$seat_row) {
             echo 'Row: ' . $row_num . '<br/>';
             //get the deck id based on row number
-            $deck_id = 5;
+            $deck = null;
             switch (true) {
                 case ($row_num +1 < 5):
-                    $deck_id = DB::table('deck')->where('deckNumber','=','0')->first()->id;
+                    $deck = 'Gelijkvloers';
                     break;
                 case ($row_num +1 < 8):
-                    $deck_id = DB::table('deck')->where('deckNumber','=','1')->first()->id;
+                    $deck = '1e_verhoog';
                     break;
                 case ($row_num +1 < 11):
-                    $deck_id = DB::table('deck')->where('deckNumber','=','2')->first()->id;
+                    $deck = '2e_verhoog';
                     break;
                 case ($row_num +1 < 14):
-                    $deck_id = DB::table('deck')->where('deckNumber','=','3')->first()->id;
+                    $deck = '3e_verhoog';
                     break;
                 case ($row_num +1 < 17):
-                    $deck_id = DB::table('deck')->where('deckNumber','=','4')->first()->id;
+                    $deck = '4e_verhoog';
                     break;
             }
             foreach ($seat_row as $column_num=>$seat_num) {
@@ -172,7 +153,7 @@ class PlayTableSeeder extends Seeder
                     'rowNumber' => $row_num + 1,
                     'columnNumber' => $column_num + 1,
                     'bookable' => $bookable,
-                    'deck_id' => $deck_id,
+                    'deck' => $deck,
                 ]);
             }
         }

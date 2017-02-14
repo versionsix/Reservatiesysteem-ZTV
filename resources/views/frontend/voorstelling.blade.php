@@ -143,7 +143,10 @@
                         <tr style="background-color: #9BBA58;">
                             <td class="seatTable"></td>
 
-                            @foreach ($seats_deck_2 as $seat)
+                            @foreach ($seats_deck_1 as $seat)
+                                @if(!($seat->seatReservation->isEmpty() ))
+                                    {{$seat->seatReservation}}
+                                @endif
                                 <td class="seatTable" colspan="2" align="center">
                                     <button type="button"
                                             class="seatButton btn btn-block btn-xs btn-success">{{$seat->id }}</button>

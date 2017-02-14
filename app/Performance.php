@@ -9,18 +9,14 @@ class Performance extends Model {
 	protected $table = 'performance';
 	public $timestamps = true;
 
-	public function performance_hasMany_reservationCustomer()
-	{
-		return $this->hasMany('Create_reservationCustomer_table', 'id');
-	}
 
-	public function performance_hasMany()
+	public function play()
 	{
-		return $this->hasMany('Create_seat_table', 'id');
+        return $this->hasOne('App\Performance');
 	}
-    public function reservationCustomer()
+    public function seatReservation()
     {
-        return $this->hasMany('App\ReservationCustomer');
+        return $this->hasMany('App\SeatReservation');
     }
 
 

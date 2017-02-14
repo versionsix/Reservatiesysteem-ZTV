@@ -13,7 +13,7 @@ class CreateSeatTable extends Migration {
 			$table->integer('rowNumber');
 			$table->integer('columnNumber');
 			$table->enum('bookable', array('true', 'false'));
-			$table->integer('deck_id')->unsigned();
+			$table->enum('deck', array('Gelijkvloers', '1e_verhoog', '2e_verhoog', '3e_verhoog', '4e_verhoog'))->nullable();
 		});
 	}
 

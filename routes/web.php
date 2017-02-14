@@ -30,6 +30,7 @@ Route::get('/beheer', 'BackendController@ShowBeheer');
 //Test Routes
 Route::get('/test', 'TestController@test');
 Route::get('/test2', 'TestController@test2');
+Route::get('/test3', 'TestController@test3');
 
 
 Route::get('/home', 'HomeController@index');

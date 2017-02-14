@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
+    public function test3(){
+        $seats = Performance::with('seatReservation')
+            ->get();
+
+        return '<pre>' . json_encode($seats,JSON_PRETTY_PRINT) . '</pre>';
+    }
     public function test2()
     {
 
