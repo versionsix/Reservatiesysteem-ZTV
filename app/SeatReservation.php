@@ -9,9 +9,22 @@ class SeatReservation extends Model {
 	protected $table = 'seatReservation';
 	public $timestamps = true;
 
-	public function seatReservation_hasOne_seat()
-	{
-		return $this->hasOne('Create_seat_table', 'id');
-	}
+    public function seat()
+    {
+        return $this->hasOne('App\Seat');
+    }
+    public function reservationCustomer()
+    {
+        return $this->belongsTo('App\ReservationCustomer');
+    }
+    /*
+    public function performance()
+    {
+        return $this->hasManyThrough(
+            'App\ReservationCustomer', 'App\Performance',
+            'id', 'performance_id', 'reservation_customer_id'
+        );
+    }
+    */
 
 }

@@ -15,7 +15,8 @@ class Seat extends Model {
     }
     public function seatReservation()
     {
-        return $this->belongsTo('App\SeatReservation');
+        return $this->hasOne('App\SeatReservation');
     }
+
 
 }

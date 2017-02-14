@@ -14,7 +14,41 @@ class PlayTableSeeder extends Seeder
         $this->createPlay();
         $this->createPerformance();
         $this->createSeats();
+        $this->createReservationCustomer();
+        $this->createSeatReservation();
     }
+    public function createReservationCustomer(){
+        $performance_id = DB::table('performance')->first()->id;
+        DB::table('reservationCustomer')->insert([
+            'performance_id' => $performance_id,
+            'firstName' => 'John',
+            'surName' => 'Doe',
+            'address1' => 'Kerkstraat',
+            'place' => 'Turnhout',
+            'zipCode' => '2300',
+            'email' => 'jhon@example.com',
+            'telephoneNumber' => '014/12.34.56',
+            'comment' => 'TEST',
+        ]);
+    }
+
+    public function createSeatReservation(){
+        DB::table('seatReservation')->insert([
+            'seat_id' => 1,
+            'reservation_customer_id' => 1,
+            'state' => 'reserved',
+        ]);
+        DB::table('seatReservation')->insert([
+            'seat_id' => 2,
+            'reservation_customer_id' => 1,
+            'state' => 'reserved',
+        ]);
+        DB::table('seatReservation')->insert([
+            'seat_id' => 3,
+            'state' => 'unavailable',
+        ]);
+    }
+
     public function createPlay()
     {
         DB::table('play')->insert([

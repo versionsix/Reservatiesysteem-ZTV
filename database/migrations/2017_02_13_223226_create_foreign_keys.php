@@ -29,7 +29,7 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('restrict');
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
-			$table->foreign('reservationCustomer_id')->references('id')->on('reservationCustomer')
+			$table->foreign('reservation_customer_id')->references('id')->on('reservationCustomer')
 						->onDelete('restrict')
 						->onUpdate('restrict');
 		});
@@ -50,7 +50,7 @@ class CreateForeignKeys extends Migration {
 			$table->dropForeign('seatReservation_seat_id_foreign');
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
-			$table->dropForeign('seatReservation_reservationCustomer_id_foreign');
+			$table->dropForeign('seatReservation_reservation_customer_id_foreign');
 		});
 	}
 }

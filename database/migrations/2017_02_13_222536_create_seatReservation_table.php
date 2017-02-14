@@ -10,9 +10,9 @@ class CreateSeatReservationTable extends Migration {
 		Schema::create('seatReservation', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('seat_id')->unsigned();
-			$table->integer('reservationCustomer_id')->unsigned()->nullable();
-			$table->timestamps();
+			$table->integer('reservation_customer_id')->unsigned()->nullable();
 			$table->enum('state', array('reserved', 'unavailable', 'special'));
+			$table->timestamps();
 		});
 	}
 

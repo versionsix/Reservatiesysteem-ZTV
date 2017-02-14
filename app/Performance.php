@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +18,10 @@ class Performance extends Model {
 	{
 		return $this->hasMany('Create_seat_table', 'id');
 	}
+    public function reservationCustomer()
+    {
+        return $this->hasMany('App\ReservationCustomer');
+    }
+
 
 }
