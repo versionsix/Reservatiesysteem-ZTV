@@ -15,6 +15,7 @@
 //Frontend Routes
 
 
+
 Route::get('/', 'FrontendController@ShowHomepage');
 Route::get('/contact', 'FrontendController@ShowContactpage');
 Route::get('/handleiding', 'FrontendController@ShowHandleidingpage');

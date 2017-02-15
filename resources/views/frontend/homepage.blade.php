@@ -46,6 +46,8 @@
 
             </div>
         </div>
+        <pre>{{ json_encode($count, JSON_PRETTY_PRINT) }}</pre>
+
     </div>
     <!-- /.row -->
 @endsection

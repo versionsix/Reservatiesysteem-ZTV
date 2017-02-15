@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Performance;
 use App\Seat;
+use app\SeatReservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,26 +13,54 @@ class FrontendController extends Controller
 
     public function ShowHomepage()
     {
-        $voorstellingen = DB::table('performance')->where('enabled', 'true')->get();
-        //return $voorstellingen;
-        return view('frontend/homepage', ['voorstellingen' => $voorstellingen]);
+        $count = '';
+        $performances = Performance::with('seatReservation')->where('enabled', 'true')->get();
+        foreach ($performances as $performance){
+            if (!($performance->seatReservation->isEmpty())){
+                $seats_unavailable = SeatReservation::where('state', '<>', 'reserved')
+                    ->where('performance_id', $performance->id)
+                    ->count();
+                $seats_reserved = SeatReservation::where('state', '<>', 'reserved')
+                    ->where('performance_id', $performance->id)
+                    ->count();
+                $count[$performance->id] = [$seats_unavailable, $seats_reserved];
+            }else{
+                $count[$performance->id] = 0;
+            }
+
+        }
+
+
+        return view('frontend/homepage',[
+            'voorstellingen' => $performances,
+            'count' => [$count]
+        ]);
     }
 
     public function ShowContactpage()
     {
         return view('frontend/contact');
     }
+
     public function ShowVoorstellingpage($id)
     {
 
-        $seats = Seat::with([ 'seatReservation' => function($query) use($id){
-                $query->where('performance_id', '=', $id);
-            }]);
+        $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
+            $query->where('performance_id', '=', $id);
+        }]);
+
+        for ($i = 1; $i <= 16; $i++) {
+            $querry_row = clone $seats;
+            $seatsArr[$i] = $querry_row
+                ->where('rowNumber', '=', $i)
+                ->orderBy('columnNumber', 'desc')
+                ->get();
+        }
 
         return view('frontend/voorstelling', [
-            'seats' => $seats,
-            'seats_reserved' => 'foo']);
+            'seatsArr' => $seatsArr]);
     }
+
     public function ShowHandleidingpage()
     {
         return view('frontend/handleiding');
@@ -65,7 +95,7 @@ class FrontendController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,7 +106,7 @@ class FrontendController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -87,7 +117,7 @@ class FrontendController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -98,8 +128,8 @@ class FrontendController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -110,7 +140,7 @@ class FrontendController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

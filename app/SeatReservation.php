@@ -20,7 +20,7 @@ class SeatReservation extends Model {
 
     public function performance()
     {
-        return $this->belongsTo('App\Performance', 'performance_iid', 'id');
+        return $this->belongsTo('App\Performance', 'performance_id', 'id');
     }
 
 

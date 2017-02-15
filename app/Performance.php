@@ -16,7 +16,7 @@ class Performance extends Model {
 	}
     public function seatReservation()
     {
-        return $this->hasMany('App\SeatReservation', 'performance_id', 'd');
+        return $this->hasMany('App\SeatReservation', 'performance_id', 'id');
     }
 
 
