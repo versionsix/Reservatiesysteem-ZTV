@@ -12,7 +12,7 @@ class Performance extends Model {
 
 	public function play()
 	{
-        return $this->belongsTo('App\Performance', 'id', 'play_id');
+        return $this->belongsTo('App\Play', 'play_id', 'id');
 	}
     public function seatReservation()
     {

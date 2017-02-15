@@ -22,6 +22,8 @@ Route::get('/handleiding', 'FrontendController@ShowHandleidingpage');
 
 /* voorstelling routes*/
 Route::get('/voorstelling/{id}', 'FrontendController@ShowVoorstellingpage');
+Route::get('/voorstelling/{id}/reserveer', 'FrontendController@ShowVoorstellingReserveerpage');
+Route::post('/voorstelling/{id}/reserveer', 'FrontendController@ShowVoorstellingReserveerpage');
 
 
 //Backend Routes

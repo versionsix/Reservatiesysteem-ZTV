@@ -3,39 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Performance;
+use App\Play;
 use App\Seat;
 use app\SeatReservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 class FrontendController extends Controller
 {
 
+
     public function ShowHomepage()
     {
-        $count = '';
+        $seats_state = '';
+
+        $play = Play::where("enabled", "true")->first();
+        //$play_name = $play->name;
         $total_seats_in_plan = Seat::where('bookable', 'true')->count();
-        $performances = Performance::with('seatReservation')->where('enabled', 'true')->get();
-        foreach ($performances as $performance){
-            if (!($performance->seatReservation->isEmpty())){
-                $seats_unavailable = SeatReservation::where('state', '<>', 'reserved')
-                    ->where('performance_id', $performance->id)
-                    ->count();
-                $seats_reserved = SeatReservation::where('state', '=', 'reserved')
+        $performances = Performance::with('seatReservation')->where('enabled', 'true')->where('play_id', $play->id)->get();
+        foreach ($performances as $performance) {
+            if (!($performance->seatReservation->isEmpty())) {
+                $seats_total = $total_seats_in_plan - SeatReservation::where('state', '<>', 'reserved')
+                        ->where('performance_id', $performance->id)
+                        ->count();
+                $seats_used = SeatReservation::where('state', '=', 'reserved')
                     ->where('performance_id', $performance->id)
                     ->count();
 
-                $count[$performance->id] = [$total_seats_in_plan - $seats_unavailable, $total_seats_in_plan - $seats_unavailable - $seats_reserved];
-            }else{
-                $count[$performance->id] = 0;
+                $seats_state[$performance->id] = (object)[
+                    'seats_total' => $seats_total,
+                    'seats_used' => $seats_used,
+                    'seats_free' => $seats_total - $seats_used,
+                    'seats_percent_free' => 100 - round(100 * ($seats_used / $seats_total))];
+
+            } else {
+                $seats_state[$performance->id] = (object)[
+                    'seats_total' => $total_seats_in_plan,
+                    'seats_used' => 0,
+                    'seats_percent_free' => 100];
             }
 
         }
 
-        return view('frontend/homepage',[
-            'voorstellingen' => $performances,
-            'count' => [$count]
-        ]);
+        return view('frontend/homepage', [
+            'performances' => $performances,
+            'seats_state' => $seats_state,
+            'play' => $play]);
     }
 
     public function ShowContactpage()
@@ -43,24 +57,6 @@ class FrontendController extends Controller
         return view('frontend/contact');
     }
 
-    public function ShowVoorstellingpage($id)
-    {
-
-        $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
-            $query->where('performance_id', '=', $id);
-        }]);
-
-        for ($i = 1; $i <= 16; $i++) {
-            $querry_row = clone $seats;
-            $seatsArr[$i] = $querry_row
-                ->where('rowNumber', '=', $i)
-                ->orderBy('columnNumber', 'desc')
-                ->get();
-        }
-
-        return view('frontend/voorstelling', [
-            'seatsArr' => $seatsArr]);
-    }
 
     public function ShowHandleidingpage()
     {
@@ -72,6 +68,34 @@ class FrontendController extends Controller
         return view('backend/beheerlogin');
     }
 
+    public function ShowVoorstellingpage($id)
+    {
+
+        $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
+            $query->where('performance_id', '=', $id);
+        }]);
+        $performance = Performance::with('play')->find($id);
+        for ($i = 1; $i <= 16; $i++) {
+            $querry_row = clone $seats;
+            $seatsArr[$i] = $querry_row
+                ->where('rowNumber', '=', $i)
+                ->orderBy('columnNumber', 'desc')
+                ->get();
+        }
+
+        return view('frontend/voorstelling', [
+            'seatsArr' => $seatsArr,
+            'performance' => $performance]);
+
+    }
+
+    public function ShowVoorstellingReserveerpage($id, Request $request){
+        if ($request->isMethod('post')) {
+            //return $request->input('eventCodes');
+            return '<pre>' . json_encode($request->all(),JSON_PRETTY_PRINT) . '</pre>';
+        }
+        return 'foo';
+    }
 
     /**
      * Display a listing of the resource.
