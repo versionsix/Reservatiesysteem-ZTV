@@ -14,22 +14,23 @@ class FrontendController extends Controller
     public function ShowHomepage()
     {
         $count = '';
+        $total_seats_in_plan = Seat::where('bookable', 'true')->count();
         $performances = Performance::with('seatReservation')->where('enabled', 'true')->get();
         foreach ($performances as $performance){
             if (!($performance->seatReservation->isEmpty())){
                 $seats_unavailable = SeatReservation::where('state', '<>', 'reserved')
                     ->where('performance_id', $performance->id)
                     ->count();
-                $seats_reserved = SeatReservation::where('state', '<>', 'reserved')
+                $seats_reserved = SeatReservation::where('state', '=', 'reserved')
                     ->where('performance_id', $performance->id)
                     ->count();
-                $count[$performance->id] = [$seats_unavailable, $seats_reserved];
+
+                $count[$performance->id] = [$total_seats_in_plan - $seats_unavailable, $total_seats_in_plan - $seats_unavailable - $seats_reserved];
             }else{
                 $count[$performance->id] = 0;
             }
 
         }
-
 
         return view('frontend/homepage',[
             'voorstellingen' => $performances,
