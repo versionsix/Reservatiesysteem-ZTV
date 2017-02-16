@@ -3,6 +3,8 @@
 @section('title', 'Homepage')
 
 @section('content')
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12 ">
@@ -68,7 +70,6 @@
 
             </div>
         </div>
-        <pre>{{ json_encode($seats_state, JSON_PRETTY_PRINT) }}</pre>
 
     </div>
     <!-- /.row -->

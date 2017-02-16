@@ -97,7 +97,6 @@
 
 <!-- /.container -->
 <!-- Begin page content -->
-<
 
 <footer class="footer">
     <div class="container">

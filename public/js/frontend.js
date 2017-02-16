@@ -1,3 +1,9 @@
+$( document ).ready(function() {
+    console.log( "ready!" );
+    $('#buttons_selected').attr('value','');
+    $('#seatsCounter').text('Aantal zitjes geselecteerd: 0');
+
+});
 window.console&&console.log('Welkom in de console :D    ');
 $( ".seatButton" ).click(function() {
     $(event.target).toggleClass("btn-success");
@@ -24,6 +30,7 @@ function updateSelectedButtonsArray() {
     $('.btn-primary').each(function(i, obj) {
         buttons_selected[i] = obj.id.substring(10, 13);
     });
+    $('#seatsCounter').text('Aantal zitjes geselecteerd: ' + buttons_selected.length);
     $('#buttons_selected').attr('value',buttons_selected);
     window.console&&console.log('Buttons selected: ', buttons_selected);
 }

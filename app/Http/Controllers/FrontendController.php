@@ -90,11 +90,25 @@ class FrontendController extends Controller
     }
 
     public function ShowVoorstellingReserveerpage($id, Request $request){
-        if ($request->isMethod('post')) {
+        //return '<pre>' . json_encode($request->all(),JSON_PRETTY_PRINT) . '</pre>';
+        $performance = Performance::with('play')->find($id);
+
+        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
+
+        if ($request->isMethod('post') && $request->input('buttons_selected') != null) { //If seating is posted
             //return $request->input('eventCodes');
-            return '<pre>' . json_encode($request->all(),JSON_PRETTY_PRINT) . '</pre>';
+                return view('frontend/reserveer', [
+                    'seats_selected_ids' => $seats_selected_ids,
+                    'id' => $id,
+                    'performance' => $performance]);
+        }elseif($request->isMethod('post') && $request->input('client_info') != null){ //if customer information is posted
+            return view('frontend/reserveer', [
+                'seats_selected_ids' => $seats_selected_ids,
+                'id' => $id,
+                'performance' => $performance]);
+        }else{
+            return redirect()->action('FrontendController@ShowVoorstellingpage', $id);
         }
-        return 'foo';
     }
 
     /**
