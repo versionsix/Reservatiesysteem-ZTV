@@ -5,6 +5,15 @@
 @section('content')
 
     <div class="container">
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4>Zitje reserveren: {{$performance->play->name}}, {{$performance->date}} {{$performance->hour}}</h4></div>
@@ -27,8 +36,9 @@
             <div class="pull-left col-xs-offset-2">
                 <span id="seatsCounter">Aantal zitjes geselecteerd: 0</span>
             </div>
+
         <div class="pull-right">
-            <form role="form" method="POST" action="{{ url('/voorstelling/' . $performance->id . '/reserveer') }}">
+            <form role="form" method="POST" action="{{ url()->current() }}">
                 <input type="hidden" id="buttons_selected" name="buttons_selected" value="">
                 {{ csrf_field() }}
             <button id="test" class="btn btn-lg btn-default">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>

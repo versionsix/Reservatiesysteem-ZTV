@@ -8,7 +8,9 @@ use App\Seat;
 use app\SeatReservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use stdClass;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class FrontendController extends Controller
 {
@@ -68,9 +70,8 @@ class FrontendController extends Controller
         return view('backend/beheerlogin');
     }
 
-    public function ShowVoorstellingpage($id)
+    public function ShowVoorstellingpage($id, Request $request)
     {
-
         $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
             $query->where('performance_id', '=', $id);
         }]);
@@ -86,104 +87,67 @@ class FrontendController extends Controller
         return view('frontend/voorstelling', [
             'seatsArr' => $seatsArr,
             'performance' => $performance]);
+    }
+
+    public function VoorstellingRequest($id, Request $request)
+    {
+
+        $error_messages = [
+            'buttons_selected.required' => 'U heeft niets geselecteerd, gelieve ten minste één stoel aan te duiden.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'buttons_selected' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //$seats_selected_ids = explode(',', $request->input('buttons_selected'));
+        //Else if no errors, redirect user
+        return redirect()->action('FrontendController@ShowVoorstellingReserveerpage', $id)->with('buttons_selected', $request->input('buttons_selected'))->withInput();
 
     }
 
-    public function ShowVoorstellingReserveerpage($id, Request $request){
-        //return '<pre>' . json_encode($request->all(),JSON_PRETTY_PRINT) . '</pre>';
+    public function ShowVoorstellingReserveerpage($id, Request $request)
+    {
+        //return '<pre>' . json_encode($request->all( ), JSON_PRETTY_PRINT) . '</pre>';
+
         $performance = Performance::with('play')->find($id);
 
-        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
-
-        if ($request->isMethod('post') && $request->input('buttons_selected') != null) { //If seating is posted
-            //return $request->input('eventCodes');
-                return view('frontend/reserveer', [
-                    'seats_selected_ids' => $seats_selected_ids,
-                    'id' => $id,
-                    'performance' => $performance]);
-        }elseif($request->isMethod('post') && $request->input('client_info') != null){ //if customer information is posted
-            return view('frontend/reserveer', [
-                'seats_selected_ids' => $seats_selected_ids,
-                'id' => $id,
-                'performance' => $performance]);
-        }else{
+        //$seats_selected_ids = session('buttons_selected');
+        //Session data must exist, if user accesses by url directly, redirect him to right page.
+        if (!($seats_selected_ids = session('buttons_selected')))
             return redirect()->action('FrontendController@ShowVoorstellingpage', $id);
+
+        return view('frontend/reserveer', [
+            'buttons_selected' => session('buttons_selected'),
+            'id' => $id,
+            'performance' => $performance]);
+
+    }
+
+    public function ReserveerRequest($id, Request $request)
+    {
+        //return '<pre>' . json_encode($request->all( ), JSON_PRETTY_PRINT) . '</pre>';
+        $error_messages = [
+            'eventName.required' => 'eventName error.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'eventName' => 'min:2',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->with('buttons_selected', $request->input('buttons_selected'))
+                ->withInput();
         }
+        //$seats_selected_ids = explode(',', $request->input('buttons_selected'));
+        //Else if no errors, redirect user
+        //return redirect()->action('FrontendController@ShowVoorstellingReserveerpage', $id)->with('seats_selected_ids', $seats_selected_ids);
+        return 'foo';
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
