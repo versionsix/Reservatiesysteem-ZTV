@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Performance;
 use App\Play;
+use App\ReservationCustomer;
 use App\Seat;
 use app\SeatReservation;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class FrontendController extends Controller
                 $seats_state[$performance->id] = (object)[
                     'seats_total' => $total_seats_in_plan,
                     'seats_used' => 0,
+                    'seats_free' => $total_seats_in_plan,
                     'seats_percent_free' => 100];
             }
 
@@ -112,7 +114,6 @@ class FrontendController extends Controller
 
     public function ShowVoorstellingReserveerpage($id, Request $request)
     {
-        seats_free
         $performance = Performance::with('play')->find($id);
 
         //$seats_selected_ids = session('buttons_selected');
@@ -163,22 +164,42 @@ class FrontendController extends Controller
                 ->withInput();
         }
         //$seats_selected_ids = explode(',', $request->input('buttons_selected'));
-        //Else if no errors, redirect user
-        return redirect()->action('FrontendController@ShowBevestigingspage', $id)
-            ->withInput(
-                $request->all()
-            );
+        //Else if no errors, redirect user after saving the things to the database
+
+        $reservation = $this->SaveReservation($id, $request);
+        return redirect()->action('FrontendController@ShowBevestigingspage', $reservation->token);
+    }
+
+    public function SaveReservation($id, Request $request){
+        $reservationCustomer = new ReservationCustomer;
+        $reservationCustomer->performance_id = $id;
+        $reservationCustomer->firstName = $request->input('firstName');
+        $reservationCustomer->surName = $request->input('surName');
+        $reservationCustomer->address1 = $request->input('address1');
+        $reservationCustomer->place = $request->input('place');
+        $reservationCustomer->zipCode = $request->input('zipCode');
+        $reservationCustomer->email = $request->input('email');
+        $reservationCustomer->telephoneNumber = $request->input('telephoneNumber');
+        $reservationCustomer->comment = $request->input('comment');
+        $reservationCustomer->firstName = $request->input('firstName');
+        $reservationCustomer->token = str_random(32);
+        $reservationCustomer->save();
+
+        $seatReeservation = new seatReservation;
+        
+
+
+
+        return $reservationCustomer;
+        //return '<pre>' . json_encode($reservationCustomer, JSON_PRETTY_PRINT) . '</pre>';
 
     }
 
-    public function ShowBevestigingspage($id, Request $request){
-        $performance = Performance::with('play')->find($id);
 
+    public function ShowBevestigingspage($token){
+        $reservationCustomer = ReservationCustomer::with('seatreservation', 'seatreservation.seat')->where('token', $token)->get();
         return view('frontend/bevestiging', [
-            'id' => $id,
-            'performance' => $performance,
-            'request' => $request]
+                'token' => $reservationCustomer]
         );
     }
-
 }

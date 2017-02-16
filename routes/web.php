@@ -25,7 +25,7 @@ Route::get('/voorstelling/{id}', 'FrontendController@ShowVoorstellingpage');
 Route::post('/voorstelling/{id}', 'FrontendController@VoorstellingRequest');
 Route::get('/voorstelling/{id}/reserveer', 'FrontendController@ShowVoorstellingReserveerpage');
 Route::post('/voorstelling/{id}/reserveer', 'FrontendController@ReserveerRequest');
-Route::get('/voorstelling/{id}/bevestig', 'FrontendController@ShowBevestigingspage');
+Route::get('/reservatie/{token}', 'FrontendController@ShowBevestigingspage');
 
 
 //Backend Routes

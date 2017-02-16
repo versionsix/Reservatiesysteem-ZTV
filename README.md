@@ -10,3 +10,4 @@
 Note:
 ---
 - Vul hier je notities aan:
+- gebruik wysiwyg editor: https://mindmup.github.io/bootstrap-wysiwyg/
