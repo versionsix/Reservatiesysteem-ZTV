@@ -112,8 +112,7 @@ class FrontendController extends Controller
 
     public function ShowVoorstellingReserveerpage($id, Request $request)
     {
-        //return '<pre>' . json_encode($request->all( ), JSON_PRETTY_PRINT) . '</pre>';
-
+        seats_free
         $performance = Performance::with('play')->find($id);
 
         //$seats_selected_ids = session('buttons_selected');
@@ -132,11 +131,30 @@ class FrontendController extends Controller
     {
         //return '<pre>' . json_encode($request->all( ), JSON_PRETTY_PRINT) . '</pre>';
         $error_messages = [
-            'eventName.required' => 'eventName error.',
+            'buttons_selected.required' => 'Er is een onbekende fout opgetreden. Probeer opnieuw',
+            'firstName.required' => 'Vul a.u.b. een voornaam in.',
+            'surName.required' => 'Vul a.u.b. een achternaam in.',
+            'address1.required' => 'Vul a.u.b. een adres in.',
+            'email.between' => 'Vul a.u.b. een geldige email in.',
+            'email.email' => 'Vul a.u.b. een geldige email in.',
+            'email.required' => 'Vul a.u.b. een email in.',
+            'zipCode.required' => 'Vul a.u.b. een postcode in.',
+            'zipCode.min' => 'Een postcode moet minimaal 4 karakters lang zijn.',
+            'telephoneNumber.required' => 'Vul a.u.b. een telefoonnummer in.',
+            'telephoneNumber.min' => 'Een postcode moet minimaal 8 karakters lang zijn.',
+            'place.required' => 'Vul a.u.b. een gemeente in.',
+
         ];
         $validator = Validator::make($request->all(), [
-            'eventName' => 'min:2',
-        ]);
+            'buttons_selected' => 'required',
+            'firstName' => 'required',
+            'surName' => 'required',
+            'address1' => 'required|min:2',
+            'place' => 'required',
+            'zipCode' => 'required:min:4',
+            'email' => 'Required|Between:3,254|Email',
+            'telephoneNumber' => 'required|min:8',
+        ], $error_messages);
 
         if ($validator->fails()) {
             return back()
@@ -146,8 +164,21 @@ class FrontendController extends Controller
         }
         //$seats_selected_ids = explode(',', $request->input('buttons_selected'));
         //Else if no errors, redirect user
-        //return redirect()->action('FrontendController@ShowVoorstellingReserveerpage', $id)->with('seats_selected_ids', $seats_selected_ids);
-        return 'foo';
+        return redirect()->action('FrontendController@ShowBevestigingspage', $id)
+            ->withInput(
+                $request->all()
+            );
+
+    }
+
+    public function ShowBevestigingspage($id, Request $request){
+        $performance = Performance::with('play')->find($id);
+
+        return view('frontend/bevestiging', [
+            'id' => $id,
+            'performance' => $performance,
+            'request' => $request]
+        );
     }
 
 }

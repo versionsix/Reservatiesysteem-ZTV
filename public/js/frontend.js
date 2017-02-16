@@ -2,7 +2,6 @@ $( document ).ready(function() {
     console.log( "ready!" );
     $('#buttons_selected').attr('value','');
     $('#seatsCounter').text('Aantal zitjes geselecteerd: 0');
-
 });
 window.console&&console.log('Welkom in de console :D    ');
 $( ".seatButton" ).click(function() {

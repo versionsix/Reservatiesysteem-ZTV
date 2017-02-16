@@ -29,6 +29,7 @@ class PlayTableSeeder extends Seeder
             'email' => 'jhon@example.com',
             'telephoneNumber' => '014/12.34.56',
             'comment' => 'TEST',
+            'token' => str_random(32),
         ]);
     }
 
