@@ -6,7 +6,7 @@ use App\Performance;
 use App\Play;
 use App\ReservationCustomer;
 use App\Seat;
-use app\SeatReservation;
+use App\SeatReservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -171,6 +171,7 @@ class FrontendController extends Controller
     }
 
     public function SaveReservation($id, Request $request){
+        //Registreer gebruiker in DB
         $reservationCustomer = new ReservationCustomer;
         $reservationCustomer->performance_id = $id;
         $reservationCustomer->firstName = $request->input('firstName');
@@ -185,8 +186,17 @@ class FrontendController extends Controller
         $reservationCustomer->token = str_random(32);
         $reservationCustomer->save();
 
-        $seatReeservation = new seatReservation;
-        
+        //Loop door alle zitjes en steek ook deze in de db
+        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
+        foreach ($seats_selected_ids as $seats_selected_id){
+            $seatReeservation = new seatReservation;
+            $seatReeservation->seat_id = $seats_selected_id;
+            $seatReeservation->reservation_customer_id = $reservationCustomer->id;
+            $seatReeservation->performance_id = $id;
+            $seatReeservation->state = 'reserved';
+            $seatReeservation->save();
+        }
+
 
 
 
