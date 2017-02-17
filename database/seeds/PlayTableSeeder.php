@@ -17,6 +17,7 @@ class PlayTableSeeder extends Seeder
         $this->createReservationCustomer();
         $this->createSeatReservation();
     }
+    //TODO: move to DemoContentSeeder
     public function createReservationCustomer(){
         $performance_id = DB::table('performance')->first()->id;
         DB::table('reservationCustomer')->insert([
@@ -32,7 +33,7 @@ class PlayTableSeeder extends Seeder
             'token' => str_random(32),
         ]);
     }
-
+//TODO: move to DemoContentSeeder
     public function createSeatReservation(){
         DB::table('seatReservation')->insert([
             'seat_id' => 1,
@@ -63,13 +64,7 @@ class PlayTableSeeder extends Seeder
         ]);
     }
 
-    public function createPlay()
-    {
-        DB::table('play')->insert([
-            'enabled' => 'true',
-            'name' => 'Test Play',
-        ]);
-    }
+    //TODO also move
     public function createPerformance()
     {
         $play_id = DB::table('play')->first()->id;

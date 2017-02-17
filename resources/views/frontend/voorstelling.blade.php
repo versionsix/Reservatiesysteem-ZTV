@@ -27,24 +27,30 @@
                 - Rood: bezet<br />
                 - Donkerblauw: geselecteerd</p>
             </div>
+            <div class="panel-body">
+                <div class="row">
+                @include('seatplan.container', [
+    ['seatsArr' => $seatsArr],
+    ['editable' => $editable = 'false']])
+
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <span id="seatsCounter">Aantal zitjes geselecteerd: 0</span>
+                    </div>
+
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-2">
+                        <form role="form" method="POST" action="{{ url()->current() }}">
+                            <input type="hidden" id="buttons_selected" name="buttons_selected" value="">
+                            {{ csrf_field() }}
+                            <button id="test" class="btn btn-lg btn-default">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!--/panel-body-->
         </div>
-        @include('seatplan.container', [
-            ['seatsArr' => $seatsArr],
-            ['editable' => $editable = 'false']])
-        <div class="row">
-            <div class="pull-left col-xs-offset-2">
-                <span id="seatsCounter">Aantal zitjes geselecteerd: 0</span>
-            </div>
 
-        <div class="pull-right">
-            <form role="form" method="POST" action="{{ url()->current() }}">
-                <input type="hidden" id="buttons_selected" name="buttons_selected" value="">
-                {{ csrf_field() }}
-            <button id="test" class="btn btn-lg btn-default">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
-            </form>
-        </div>
-        </div>
+
 
        <!-- <pre>{{ json_encode($seatsArr, JSON_PRETTY_PRINT) }}</pre> -->
     </div>

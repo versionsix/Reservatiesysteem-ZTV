@@ -23,6 +23,8 @@ class FrontendController extends Controller
 
         $play = Play::where("enabled", "true")->first();
         //$play_name = $play->name;
+        if($play == false)
+            return 'Er zijn geen voorstellingen gevonden. Onze excuses.';
         $total_seats_in_plan = Seat::where('bookable', 'true')->count();
         $performances = Performance::with('seatReservation')->where('enabled', 'true')->where('play_id', $play->id)->get();
         foreach ($performances as $performance) {
