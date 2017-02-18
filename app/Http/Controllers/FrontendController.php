@@ -74,7 +74,7 @@ class FrontendController extends Controller
         return view('backend/beheerlogin');
     }
 
-    public function ShowVoorstellingpage($id, Request $request)
+    public function ShowVoorstellingpage($id)
     {
         $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
             $query->where('performance_id', '=', $id);
@@ -209,9 +209,26 @@ class FrontendController extends Controller
 
 
     public function ShowBevestigingspage($token){
-        $reservationCustomer = ReservationCustomer::with('seatreservation', 'seatreservation.seat')->where('token', $token)->get();
+        $reservationCustomer = ReservationCustomer::with('seatreservation', 'seatreservation.seat')->where('token', $token)->first();
+        //return '<pre>' . json_encode($reservationCustomer, JSON_PRETTY_PRINT) . '</pre>';
+
+        $id = $reservationCustomer->performance_id;
+        $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
+            $query->where('performance_id', '=', $id);
+        }]);
+        $performance = Performance::with('play')->find($id);
+        for ($i = 1; $i <= 16; $i++) {
+            $querry_row = clone $seats;
+            $seatsArr[$i] = $querry_row
+                ->where('rowNumber', '=', $i)
+                ->orderBy('columnNumber', 'desc')
+                ->get();
+        }
+
         return view('frontend/bevestiging', [
-                'token' => $reservationCustomer]
+                'token' => $reservationCustomer,
+                'seatsArr' => $seatsArr,
+                'performance' => $performance]
         );
     }
 }

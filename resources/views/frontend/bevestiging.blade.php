@@ -13,9 +13,11 @@
                 </p>
 
                 <p>Gereserveerde zitje(s)</p>
+                <div class="row">
                 @include('seatplan.container', [
                     ['seatsArr' => $seatsArr],
-                    ['editable' => $editable = 'false']])
+                    ['editable' => $editable = 'bevestiging']])
+                </div>
             </div>
         </div>
         <hr>

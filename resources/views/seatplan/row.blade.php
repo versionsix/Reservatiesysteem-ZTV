@@ -4,18 +4,25 @@
     @endif
     @foreach ($seatrow as $seat)
         @if(($seat->seatNumber > 0 ))
-            @if(!($seat->seatReservation->isEmpty() ))
-                <td class="seatTable" colspan="2" align="center">
-                    <button type="button"
-                            id="seatButton{{$seat->id}}"
-                            class="seatButton btn btn-block btn-xs btn-danger" {{ $editable === "true" ? '' : 'disabled="true"' }}>{{$seat->seatNumber }}</button>
-                </td>
+            @if($editable == 'bevestiging')
+                    <td class="seatTable" colspan="2" align="center">
+                        <button type="button"
+                                class="seatButton btn btn-block btn-xs btn-default" >{{$seat->seatNumber }}</button>
+                    </td>
             @else
-                <td class="seatTable" colspan="2" align="center">
-                    <button type="button"
-                            id="seatButton{{$seat->id}}"
-                            class="seatButton btn btn-block btn-xs btn-success">{{$seat->seatNumber }}</button>
-                </td>
+                @if(!($seat->seatReservation->isEmpty() ))
+                    <td class="seatTable" colspan="2" align="center">
+                        <button type="button"
+                                id="seatButton{{$seat->id}}"
+                                class="seatButton btn btn-block btn-xs btn-danger" {{ $editable === "true" ? '' : 'disabled="true"' }}>{{$seat->seatNumber }}</button>
+                    </td>
+                @else
+                    <td class="seatTable" colspan="2" align="center">
+                        <button type="button"
+                                id="seatButton{{$seat->id}}"
+                                class="seatButton btn btn-block btn-xs btn-success">{{$seat->seatNumber }}</button>
+                    </td>
+                @endif
             @endif
         @else
             <td class="seatTable" colspan="2" align="center">
