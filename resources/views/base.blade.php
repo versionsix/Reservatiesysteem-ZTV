@@ -56,7 +56,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ action("FrontendController@ShowHomepage") }}">
-                Zammelse toneelvrienden</a>
+                {{getenv('APP_TITLE')}}</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
