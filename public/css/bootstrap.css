@@ -1,3 +1,13 @@
+@media print {
+  .btn-primary {
+    color: black !important;
+    background-color: gray !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .seatButtonPrint{
+    height: 22px !important;
+  }
+}
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.

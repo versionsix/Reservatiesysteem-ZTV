@@ -1,3 +1,4 @@
+
 .progress {
     margin-bottom: 0 !important;
 }
@@ -22,7 +23,12 @@
     height: 30px ;
     width: 30px ;
     border-color: #1E1D21;
-
+}
+.seatButtonPrint {
+    height: 30px ;
+    width: 30px ;
+    border-color: #1E1D21;
+    cursor: default;
 }
 .seatTable {
     padding: 2px !important;
@@ -36,3 +42,5 @@
 
 }
 
+.black-background {background-color:#000000;}
+.white {color:#ffffff;}

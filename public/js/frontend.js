@@ -4,7 +4,8 @@ $( document ).ready(function() {
     $('#seatsCounter').text('Aantal zitjes geselecteerd: 0');
 });
 window.console&&console.log('Welkom in de console :D    ');
-$( ".seatButton" ).click(function() {
+$( ".seatButton" ).click(function(event) {
+    if( !event ) event = window.event;
     $(event.target).toggleClass("btn-success");
     $(event.target).toggleClass("btn-primary");
     // window.console&&console.log("Ceci c'est bouton:" + event.target.id.substring(10, 13));

@@ -12,7 +12,7 @@
     <title>ZTV - @yield('title')</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
     <link href="/css/backend.css" rel="stylesheet">
     <link href="/css/frontend.css" rel="stylesheet">

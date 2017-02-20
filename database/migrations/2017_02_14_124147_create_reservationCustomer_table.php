@@ -17,7 +17,7 @@ class CreateReservationCustomerTable extends Migration {
 			$table->string('zipCode');
 			$table->string('email');
 			$table->string('telephoneNumber');
-			$table->string('comment');
+			$table->string('comment')->nullable();
             $table->string('token', 32)->unique();
             $table->timestamps();
 		});
