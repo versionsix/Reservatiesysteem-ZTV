@@ -12,7 +12,7 @@
                     U ontvangt een e-mail met de details van je reservatie.
                 </p>
 
-                <p>Gereserveerde zitje(s)</p>
+                <p>Gereserveerde zitje(s) zijn aangeduid met blauw</p>
                 <div class="row">
                 @include('seatplan.container', [
                     ['seatsArr' => $seatsArr],
@@ -20,8 +20,8 @@
                 </div>
             </div>
         </div>
-        <hr>
-        <pre>{{ json_encode($token, JSON_PRETTY_PRINT) }}</pre>
+        {{-- <hr> --}}
+       {{-- <pre>{{ json_encode($token, JSON_PRETTY_PRINT) }}</pre> --}}
 
     </div>
 @endsection
