@@ -11,7 +11,7 @@ class CreateSentMailTable extends Migration {
 			$table->increments('id');
 			$table->string('name_to');
 			$table->string('email_to');
-			$table->string('email_content');
+			$table->text('email_content');
 			$table->boolean('email_read')->default(false);
 			$table->timestamps();
 		});

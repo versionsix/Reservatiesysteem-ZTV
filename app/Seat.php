@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +11,11 @@ class Seat extends Model {
 	public $timestamps = false;
     public function seatReservation()
     {
-        return $this->hasMany('App\SeatReservation', 'seat_id', 'id');
+        return $this->hasOne('App\SeatReservation', 'seat_id', 'id');
     }
 
-
+    public function performance()
+    {
+        return $this->hasOne('App\Performance', 'id', 'id');
+    }
 }

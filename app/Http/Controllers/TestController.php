@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Deck;
+use App\Mail\ConfirmReservationMail;
 use App\Performance;
 use App\ReservationCustomer;
 use App\Seat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
 {
+    public function test4(){
+
+        $email = new ConfirmReservationMail('Test User', 'TestUser@example.com', 'Hallo');
+
+
+        Mail::send($email);
+
+        return json_encode($email, JSON_PRETTY_PRINT);
+    }
+
     public function test3(){
         $seats = Performance::with('seatReservation')
             ->get();

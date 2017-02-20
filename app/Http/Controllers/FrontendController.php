@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmReservationMail;
 use App\Performance;
 use App\Play;
 use App\ReservationCustomer;
 use App\Seat;
 use App\SeatReservation;
+use Barryvdh\Debugbar\Middleware\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+
 
 class FrontendController extends Controller
 {
@@ -23,7 +29,7 @@ class FrontendController extends Controller
 
         $play = Play::where("enabled", "true")->first();
         //$play_name = $play->name;
-        if($play == false)
+        if ($play == false)
             return 'Er zijn geen voorstellingen gevonden. Onze excuses.';
         $total_seats_in_plan = Seat::where('bookable', 'true')->count();
         $performances = Performance::with('seatReservation')->where('enabled', 'true')->where('play_id', $play->id)->get();
@@ -79,6 +85,8 @@ class FrontendController extends Controller
         $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
             $query->where('performance_id', '=', $id);
         }]);
+        //  return '<pre>' . json_encode($seats->get(), JSON_PRETTY_PRINT) . '</pre>';
+
         $performance = Performance::with('play')->find($id);
         for ($i = 1; $i <= 16; $i++) {
             $querry_row = clone $seats;
@@ -87,6 +95,8 @@ class FrontendController extends Controller
                 ->orderBy('columnNumber', 'desc')
                 ->get();
         }
+
+        Debugbar::error('Error!');
 
         return view('frontend/voorstelling', [
             'seatsArr' => $seatsArr,
@@ -144,7 +154,7 @@ class FrontendController extends Controller
             'zipCode.required' => 'Vul a.u.b. een postcode in.',
             'zipCode.min' => 'Een postcode moet minimaal 4 karakters lang zijn.',
             'telephoneNumber.required' => 'Vul a.u.b. een telefoonnummer in.',
-            'telephoneNumber.min' => 'Een postcode moet minimaal 8 karakters lang zijn.',
+            'telephoneNumber.min' => 'Een telefoonnummer moet minimaal 8 karakters lang zijn.',
             'place.required' => 'Vul a.u.b. een gemeente in.',
 
         ];
@@ -169,10 +179,27 @@ class FrontendController extends Controller
         //Else if no errors, redirect user after saving the things to the database
 
         $reservation = $this->SaveReservation($id, $request);
+        //return $reservation;
         return redirect()->action('FrontendController@ShowBevestigingspage', $reservation->token);
     }
 
-    public function SaveReservation($id, Request $request){
+    public function SaveReservation($id, Request $request)
+    {
+        $error_message = 'Tijden het reserveren van je zitplaats(en) is één of meerdere van de plaatsen helaas'
+            . ' door iemand anders gereserveerd. De reservatie is afgebroken. '
+            . 'Ga terug naar de hoofdpagina en kies een andere optie.';
+
+        //Check of er in de tussentijd geen extra zitjes zijn bijgekomen
+        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
+        foreach ($seats_selected_ids as $seat_selected_id) {
+            $seatReservation = SeatReservation::where('performance_id', '=', $id)->where('seat_id', '=', $seat_selected_id)->first();
+            if (!empty($seatReservation)) {
+                App::abort(500, $error_message);
+            }
+            //return '<pre>' . json_encode($seatReservation, JSON_PRETTY_PRINT) . '</pre>';
+
+        }
+
         //Registreer gebruiker in DB
         $reservationCustomer = new ReservationCustomer;
         $reservationCustomer->performance_id = $id;
@@ -189,8 +216,7 @@ class FrontendController extends Controller
         $reservationCustomer->save();
 
         //Loop door alle zitjes en steek ook deze in de db
-        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
-        foreach ($seats_selected_ids as $seats_selected_id){
+        foreach ($seats_selected_ids as $seats_selected_id) {
             $seatReeservation = new seatReservation;
             $seatReeservation->seat_id = $seats_selected_id;
             $seatReeservation->reservation_customer_id = $reservationCustomer->id;
@@ -199,24 +225,32 @@ class FrontendController extends Controller
             $seatReeservation->save();
         }
 
+        //Stuur Email om de registratie te bevestigen
 
+        $email = new ConfirmReservationMail($reservationCustomer->firstName . ' ' . $reservationCustomer->surName, $reservationCustomer->email, $reservationCustomer);
 
+        Mail::send($email);
 
+        //Stuur naar de vorige functie de gegevens terug.
         return $reservationCustomer;
         //return '<pre>' . json_encode($reservationCustomer, JSON_PRETTY_PRINT) . '</pre>';
 
     }
 
 
-    public function ShowBevestigingspage($token){
+    public function ShowBevestigingspage($token)
+    {
         $reservationCustomer = ReservationCustomer::with('seatreservation', 'seatreservation.seat')->where('token', $token)->first();
         //return '<pre>' . json_encode($reservationCustomer, JSON_PRETTY_PRINT) . '</pre>';
 
         $id = $reservationCustomer->performance_id;
-        $seats = Seat::with(['seatReservation' => function ($query) use ($id) {
+        $reservation_customer_id = $reservationCustomer->id;
+
+        $seats = Seat::with(['seatReservation' => function ($query) use ($id, $reservation_customer_id) {
             $query->where('performance_id', '=', $id);
+            $query->where('reservation_customer_id', '=', $reservation_customer_id);
         }]);
-        $performance = Performance::with('play')->find($id);
+
         for ($i = 1; $i <= 16; $i++) {
             $querry_row = clone $seats;
             $seatsArr[$i] = $querry_row
@@ -225,8 +259,10 @@ class FrontendController extends Controller
                 ->get();
         }
 
+        $performance = Performance::with('play')->find($id);
+
         return view('frontend/bevestiging', [
-                'token' => $reservationCustomer,
+                'token' => $seatsArr, //Verbose rommel
                 'seatsArr' => $seatsArr,
                 'performance' => $performance]
         );

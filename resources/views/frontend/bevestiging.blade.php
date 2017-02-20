@@ -20,8 +20,8 @@
                 </div>
             </div>
         </div>
-        {{-- <hr> --}}
-       {{-- <pre>{{ json_encode($token, JSON_PRETTY_PRINT) }}</pre> --}}
+       {{-- <hr>
+       <pre>{{ json_encode($token, JSON_PRETTY_PRINT) }}</pre> --}}
 
     </div>
 @endsection

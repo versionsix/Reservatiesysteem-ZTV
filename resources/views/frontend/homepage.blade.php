@@ -35,7 +35,7 @@
                                 @if($voorstelling->seatingType != "free_admission")
                                     <a href="/voorstelling/{{ $voorstelling->id }}">
                                         @endif
-                                        {{ $voorstelling->date }} {{ $voorstelling->hour }}
+                                        {{ $voorstelling->date }} om {{ $voorstelling->hour }}
                                         @if($voorstelling->seatingType != "free_admission")
                                     </a>
                                 @endif
