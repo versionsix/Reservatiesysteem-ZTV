@@ -8,7 +8,6 @@ use App\Play;
 use App\ReservationCustomer;
 use App\Seat;
 use App\SeatReservation;
-use Barryvdh\Debugbar\Middleware\Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
+setlocale(LC_TIME, 'Dutch');
 
 
 class FrontendController extends Controller
@@ -33,6 +33,7 @@ class FrontendController extends Controller
             return 'Er zijn geen voorstellingen gevonden. Onze excuses.';
         $total_seats_in_plan = Seat::where('bookable', 'true')->count();
         $performances = Performance::with('seatReservation')->where('enabled', 'true')->where('play_id', $play->id)->get();
+        setlocale(LC_TIME, 'Dutch');
         foreach ($performances as $performance) {
             if (!($performance->seatReservation->isEmpty())) {
                 $seats_total = $total_seats_in_plan - SeatReservation::where('state', '<>', 'reserved')
@@ -55,8 +56,13 @@ class FrontendController extends Controller
                     'seats_free' => $total_seats_in_plan,
                     'seats_percent_free' => 100];
             }
-
+            $performance->date = Carbon::createFromFormat('Y-m-d',$performance->date)->formatLocalized('%A %d %B %Y');
+            $performance->hour = Carbon::createFromFormat('H:i:s',$performance->hour)->format('H.i \u\u\r');
         }
+        Carbon::setLocale('nl');
+
+
+
 
         return view('frontend/homepage', [
             'performances' => $performances,
@@ -95,8 +101,10 @@ class FrontendController extends Controller
                 ->orderBy('columnNumber', 'desc')
                 ->get();
         }
+        $performance->date = Carbon::createFromFormat('Y-m-d',$performance->date)->formatLocalized('%A %d %B %Y');
+        $performance->hour = Carbon::createFromFormat('H:i:s',$performance->hour)->format('H.i \u\u\r');
 
-        Debugbar::error('Error!');
+        \Debugbar::error('Error!');
 
         return view('frontend/voorstelling', [
             'seatsArr' => $seatsArr,

@@ -52,6 +52,5 @@
 
 
 
-       <!-- <pre>{{ json_encode($seatsArr, JSON_PRETTY_PRINT) }}</pre> -->
     </div>
 @endsection

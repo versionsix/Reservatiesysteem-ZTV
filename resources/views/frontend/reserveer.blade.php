@@ -153,7 +153,7 @@
 
                     <div class="form-group">
                         <div class="col-md-8 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary data-single-click">
                                 RESERVEER!
                             </button>
                         </div>
@@ -171,6 +171,5 @@
         <br>
         <hr>
 
-        <pre>{{ $buttons_selected }}</pre>
     </div>
 @endsection

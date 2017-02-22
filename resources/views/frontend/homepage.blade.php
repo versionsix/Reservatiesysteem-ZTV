@@ -1,3 +1,7 @@
+@php(
+setlocale(LC_TIME, 'Dutch')
+)
+
 @extends('base')
 
 @section('title', 'Homepage')
