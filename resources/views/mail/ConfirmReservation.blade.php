@@ -11,7 +11,7 @@
         </tr>
         <tr>
             <td>Voorstelling</td>
-            <td>{{$performance->play->name}}, {{$performance->data}} om {{$performance->hour}}</td>
+            <td>{{$performance->play->name}}<br /> {{$performance->date}} om {{$performance->hour}}</td>
         </tr>
         <tr>
             <td>Adres</td>

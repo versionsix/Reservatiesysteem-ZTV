@@ -153,7 +153,7 @@
 
                     <div class="form-group">
                         <div class="col-md-8 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary data-single-click">
+                            <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.value='Verzenden, even geduld...';this.form.submit();">
                                 RESERVEER!
                             </button>
                         </div>

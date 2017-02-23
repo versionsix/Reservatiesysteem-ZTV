@@ -186,11 +186,16 @@ class FrontendController extends Controller
         //$seats_selected_ids = explode(',', $request->input('buttons_selected'));
         //Else if no errors, redirect user after saving the things to the database
 
-        $reservation = $this->SaveReservation($id, $request);
-        //return $reservation;
-        return redirect()->action('FrontendController@ShowBevestigingspage', $reservation->token);
+        return redirect()
+            ->action('FrontendController@ReserveerRequestSave', $id)
+            ->withInput();
     }
 
+    public function ReserveerRequestSave($id, Request $request){
+        $reservation = $this->SaveReservation($id, $request);
+
+        return redirect()->action('FrontendController@ShowBevestigingspage', $reservation->token);
+    }
     public function SaveReservation($id, Request $request)
     {
         $error_message = 'Tijden het reserveren van je zitplaats(en) is één of meerdere van de plaatsen helaas'
@@ -198,7 +203,7 @@ class FrontendController extends Controller
             . 'Ga terug naar de hoofdpagina en kies een andere optie.';
 
         //Check of er in de tussentijd geen extra zitjes zijn bijgekomen
-        $seats_selected_ids = explode(',', $request->input('buttons_selected'));
+        $seats_selected_ids = explode(',', $request->old('buttons_selected'));
         foreach ($seats_selected_ids as $seat_selected_id) {
             $seatReservation = SeatReservation::where('performance_id', '=', $id)->where('seat_id', '=', $seat_selected_id)->first();
             if (!empty($seatReservation)) {
@@ -211,15 +216,15 @@ class FrontendController extends Controller
         //Registreer gebruiker in DB
         $reservationCustomer = new ReservationCustomer;
         $reservationCustomer->performance_id = $id;
-        $reservationCustomer->firstName = $request->input('firstName');
-        $reservationCustomer->surName = $request->input('surName');
-        $reservationCustomer->address1 = $request->input('address1');
-        $reservationCustomer->place = $request->input('place');
-        $reservationCustomer->zipCode = $request->input('zipCode');
-        $reservationCustomer->email = $request->input('email');
-        $reservationCustomer->telephoneNumber = $request->input('telephoneNumber');
-        $reservationCustomer->comment = $request->input('comment');
-        $reservationCustomer->firstName = $request->input('firstName');
+        $reservationCustomer->firstName = $request->old('firstName');
+        $reservationCustomer->surName = $request->old('surName');
+        $reservationCustomer->address1 = $request->old('address1');
+        $reservationCustomer->place = $request->old('place');
+        $reservationCustomer->zipCode = $request->old('zipCode');
+        $reservationCustomer->email = $request->old('email');
+        $reservationCustomer->telephoneNumber = $request->old('telephoneNumber');
+        $reservationCustomer->comment = $request->old('comment');
+        $reservationCustomer->firstName = $request->old('firstName');
         $reservationCustomer->token = str_random(32);
         $reservationCustomer->save();
 

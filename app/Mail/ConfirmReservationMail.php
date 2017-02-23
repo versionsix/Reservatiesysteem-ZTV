@@ -73,6 +73,7 @@ class ConfirmReservationMail extends Mailable
         \Debugbar::info($content_vars);
         return $this->from(getenv('MAIL_FROM'))
             ->to($this->email_to)
+            ->subject('Bevestiging reservatie "' . $performance->play->name . '""')
             ->view('mail.ConfirmReservation')
             ->with($content_vars);
 //            ->with();
