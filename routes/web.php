@@ -51,6 +51,7 @@ Route::post('/beheer/performance/{id}/delete', 'BackendController@RequestPerform
 
 Route::get('/beheer/page', 'BackendController@ShowPage');
 Route::get('/beheer/page/{id}', 'BackendController@ShowPageEdit');
+Route::post('/beheer/page/{id}', 'BackendController@RequestPageEdit');
 
 Route::get('/beheer/reservation', 'BackendController@ShowReservation');
 Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');

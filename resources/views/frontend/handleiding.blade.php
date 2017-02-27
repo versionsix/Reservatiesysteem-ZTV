@@ -4,6 +4,6 @@
 
 @section('content')
     <div class="container">
-    TBA Handleiding
+    {!! $page->content !!}
     </div>
 @endsection

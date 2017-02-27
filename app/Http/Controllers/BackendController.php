@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Page;
 use App\Performance;
 use App\Play;
 use App\SentMail;
@@ -286,11 +287,40 @@ class BackendController extends Controller
     }
     public function ShowPage()
     {
-        return 'todo';
+        $page = Page::get();
+        return view('backend.CRUD.listPage', [
+            'page' => $page]);
     }
-    public function ShowPageEdit()
+    public function ShowPageEdit($id)
     {
-        return 'todo';
+        $page = Page::find($id);
+        return view('backend.CRUD.editPage', [
+            'page' => $page]);
+    }
+    public function RequestPageEdit(Request $request, $id)
+    {
+
+        $error_messages = [
+            'page_content.required' => 'Geen inhoud gevonden',
+        ];
+        $validator = Validator::make($request->all(), [
+            'page_content' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, create new
+        $page = Page::find($id);
+        $page->content = $request->input('page_content');
+
+        $page->save();
+        return redirect()
+            ->action('BackendController@ShowPage')
+            ->with('status', 'Pagina  "' . $page->name . '" successvol bijgewerkt')
+            ->withInput();
     }
     public function ShowReservation()
     {

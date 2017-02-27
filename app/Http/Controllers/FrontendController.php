@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ConfirmReservationMail;
+use App\Page;
 use App\Performance;
 use App\Play;
 use App\ReservationCustomer;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
+
 setlocale(LC_TIME, 'Dutch');
 
 
@@ -32,7 +34,12 @@ class FrontendController extends Controller
         if ($play == false)
             return 'Er zijn geen voorstellingen gevonden. Onze excuses.';
         $total_seats_in_plan = Seat::where('bookable', 'true')->count();
-        $performances = Performance::with('seatReservation')->where('enabled', 'true')->where('play_id', $play->id)->get();
+        $performances = Performance::with('seatReservation')
+            ->where('enabled', 'true')
+            ->orderBy('date', 'asc')
+            ->orderBy('hour', 'asc')
+            ->where('play_id', $play->id)
+            ->get();
         setlocale(LC_TIME, 'Dutch');
         foreach ($performances as $performance) {
             if (!($performance->seatReservation->isEmpty())) {
@@ -56,12 +63,10 @@ class FrontendController extends Controller
                     'seats_free' => $total_seats_in_plan,
                     'seats_percent_free' => 100];
             }
-            $performance->date = Carbon::createFromFormat('Y-m-d',$performance->date)->formatLocalized('%A %d %B %Y');
-            $performance->hour = Carbon::createFromFormat('H:i:s',$performance->hour)->format('H.i \u\u\r');
+            $performance->date = Carbon::createFromFormat('Y-m-d', $performance->date)->formatLocalized('%A %d %B %Y');
+            $performance->hour = Carbon::createFromFormat('H:i:s', $performance->hour)->format('H.i \u\u\r');
         }
         Carbon::setLocale('nl');
-
-
 
 
         return view('frontend/homepage', [
@@ -72,13 +77,17 @@ class FrontendController extends Controller
 
     public function ShowContactpage()
     {
-        return view('frontend/contact');
+        $page = Page::where('name', '=', 'contact')->first();
+        return view('frontend/contact', [
+            'page' => $page]);
     }
 
 
     public function ShowHandleidingpage()
     {
-        return view('frontend/handleiding');
+        $page = Page::where('name', '=', 'handleiding')->first();
+        return view('frontend/handleiding', [
+            'page' => $page]);
     }
 
     public function ShowBeheerLogin()
@@ -101,8 +110,8 @@ class FrontendController extends Controller
                 ->orderBy('columnNumber', 'desc')
                 ->get();
         }
-        $performance->date = Carbon::createFromFormat('Y-m-d',$performance->date)->formatLocalized('%A %d %B %Y');
-        $performance->hour = Carbon::createFromFormat('H:i:s',$performance->hour)->format('H.i \u\u\r');
+        $performance->date = Carbon::createFromFormat('Y-m-d', $performance->date)->formatLocalized('%A %d %B %Y');
+        $performance->hour = Carbon::createFromFormat('H:i:s', $performance->hour)->format('H.i \u\u\r');
 
         \Debugbar::error('Error!');
 
@@ -191,11 +200,13 @@ class FrontendController extends Controller
             ->withInput();
     }
 
-    public function ReserveerRequestSave($id, Request $request){
+    public function ReserveerRequestSave($id, Request $request)
+    {
         $reservation = $this->SaveReservation($id, $request);
 
         return redirect()->action('FrontendController@ShowBevestigingspage', $reservation->token);
     }
+
     public function SaveReservation($id, Request $request)
     {
         $error_message = 'Tijden het reserveren van je zitplaats(en) is één of meerdere van de plaatsen helaas'

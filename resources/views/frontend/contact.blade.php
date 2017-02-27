@@ -4,6 +4,6 @@
 
 @section('content')
     <div class="container">
-    TBA Contact
+    {!! $page->content !!}
     </div>
 @endsection

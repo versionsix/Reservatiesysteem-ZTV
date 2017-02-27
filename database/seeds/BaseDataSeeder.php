@@ -37,6 +37,14 @@ class BaseDataSeeder extends Seeder
             'page_content' => 'Example',
             'seatingType' => 'fixed_seat_choice',
         ]);
+        DB::table('page')->insert([
+            'name' => 'contact',
+            'content' => 'TBA Contact',
+        ]);
+        DB::table('page')->insert([
+            'name' => 'handleiding',
+            'content' => 'TBA Help',
+        ]);
         //Seed the seating plan
         $seat_rows = array //Rijen per array
         (
