@@ -44,3 +44,13 @@
 
 .black-background {background-color:#000000;}
 .white {color:#ffffff;}
+
+.fixed {
+    position: fixed;
+}
+
+@media (min-width: 1200px) {
+    .backend{
+        max-width: 970px;
+    }
+}

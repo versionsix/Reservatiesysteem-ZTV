@@ -16,80 +16,22 @@ class BackendController extends Controller
         return view('backend/beheer');
     }
 
+Route::get('/beheer/play', 'BackendController@ShowPlay');
+Route::get('/beheer/play/add', 'BackendController@ShowPlayAdd');
+Route::get('/beheer/play/{id}', 'BackendController@ShowPlayEdit');
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+Route::get('/beheer/performance', 'BackendController@ShowPerformance');
+Route::get('/beheer/performance/add', 'BackendController@ShowPerformanceAdd');
+Route::get('/beheer/performance/{id}', 'BackendController@ShowPerformanceEdit');
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+Route::get('/beheer/page', 'BackendController@ShowPage');
+Route::get('/beheer/page/{id}', 'BackendController@ShowPageEdit');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+Route::get('/beheer/reservation', 'BackendController@ShowReservation');
+Route::get('/beheer/reservation/add', 'BackendController@ShowPerformanceAdd');
+Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');
+Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+Route::get('/beheer/log', 'BackendController@ShowLog');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
