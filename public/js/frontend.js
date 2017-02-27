@@ -2,6 +2,17 @@ $( document ).ready(function() {
     console.log( "ready!" );
     $('#buttons_selected').attr('value','');
     $('#seatsCounter').text('Aantal zitjes geselecteerd: 0');
+    $('#summernote').summernote({
+        toolbar: [
+            //[groupname, [button list]]
+
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['view', ['codeview']],
+        ]
+    });
+
 });
 window.console&&console.log('Welkom in de console :D    ');
 $( ".seatButton" ).click(function(event) {
@@ -21,8 +32,15 @@ $( "#test" ).click(function() {
     });
     window.console&&console.log('Buttons selected: ', buttons_selected)
 });
-
-
+$('.clockpicker').clockpicker({
+    placement: 'bottom',
+    align: 'left',
+    donetext: 'Selecteer'
+});
+$('#datePickerContainer .input-group.date').datepicker({
+    format: "dd-mm-yyyy",
+    language: "nl-BE"
+});
 
 function updateSelectedButtonsArray() {
     window.console&&console.log('Generating the magic');

@@ -16,6 +16,9 @@
     <link href="/css/footer.css" rel="stylesheet">
     <link href="/css/backend.css" rel="stylesheet">
     <link href="/css/frontend.css" rel="stylesheet">
+    <link href="/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="/css/clockpicker.css" rel="stylesheet">
+    <link href="/css/summernote.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -111,7 +114,12 @@
 </footer>
 <!-- jQuery Version 1.11.1 -->
 <script src="/js/jquery.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.nl-BE.min.js"></script>
+<script src="/js/clockpicker.js"></script>
+<script src="/js/summernote.min.js"></script>
 <script src="/js/frontend.js"></script>
+
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Performance;
 use App\Play;
+use App\SentMail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -47,9 +50,11 @@ class BackendController extends Controller
     {
         $error_messages = [
             'name.required' => 'Geen naam opgegeven, gelive een naam op te geven',
+            'page_content.required' => 'Geen beschrijving opgegeven, gelive een beschrijving op te geven',
         ];
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'page_content' => 'required',
         ], $error_messages);
 
         if ($validator->fails()) {
@@ -60,6 +65,7 @@ class BackendController extends Controller
         //Else if no errors, create new
         $play = new Play();
         $play->name = $request->input('name');
+        $play->page_content = $request->input('page_content');
         if (!($request->input('playEnabled') == null))
         {
             $play->enabled = "true";
@@ -82,9 +88,11 @@ class BackendController extends Controller
     {
         $error_messages = [
             'name.required' => 'Geen naam opgegeven, gelive een naam op te geven',
+            'page_content.required' => 'Geen beschrijving opgegeven, gelive een beschrijving op te geven',
         ];
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'page_content' => 'required',
         ], $error_messages);
 
         if ($validator->fails()) {
@@ -95,12 +103,11 @@ class BackendController extends Controller
         //Else if no errors, update entry
         $play = Play::find($id);
         $play->name = $request->input('name');
-        if ($request->input('playEnabled') != null)
+        $play->page_content = $request->input('page_content');
+        if ($request->input('playEnabled') != null && $play->enabled == "false")
         {
-            $play->enabled = "true";
             Play::where('enabled', '=', 'true')->update(['enabled' => 'false']);
-        }else{
-            $play->enabled = "false";
+            $play->enabled = "true";
         }
 
         $play->save();
@@ -138,17 +145,139 @@ class BackendController extends Controller
             ->with('status', 'Voorstelling "' . $play->name . '" successvol verwijderd')
             ->withInput();
     }
-    public function ShowPerformance()
+    public function ShowPerformance(Request $request)
     {
-        return 'todo';
+        $play_active = Play::where('enabled', '=', 'true')->first();
+        $performance = Performance::where('play_id', '=', $play_active->id)->get();
+
+        foreach ($performance as $performance_item) {
+            $performance_item->hour = Carbon::createFromFormat('H:i:s',$performance_item->hour)->format('H.i \u\u\r');
+        }
+            \Debugbar::info($performance);
+        return view('backend.CRUD.listPerformance', [
+            'request' => $request,
+            'play_active' => $play_active,
+            'performance' => $performance]);
     }
     public function ShowPerformanceAdd()
     {
-        return 'todo';
+        $play_active = Play::where('enabled', '=', 'true')->first();
+        return view('backend.CRUD.addPerformance', [
+            'play_active' => $play_active]);
     }
-    public function ShowPerformanceEdit()
+    public function RequestPerformanceAdd(Request $request){
+        $play_active = Play::where('enabled', '=', 'true')->first();
+        \Debugbar::info(Carbon::createFromFormat('d-m-Y',$request->input('datePerformance'))->format('Y-m-d'));
+        $error_messages = [
+            'datePerformance.required' => 'Datum opgeven AUB',
+            'hourPerformance.required' => 'Uur opgeven AUB',
+            'seatingType.required' => 'Reservatieplan opgeven AUB',
+            'page_content.required' => 'Geen beschrijving opgegeven, gelive extra info op te geven',
+        ];
+        $validator = Validator::make($request->all(), [
+            'datePerformance' => 'required',
+            'hourPerformance' => 'required',
+            'seatingType' => 'required',
+            'page_content' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, create new
+        $performance = new Performance();
+        $performance->play_id = $play_active->id;
+        $performance->date = Carbon::createFromFormat('d-m-Y',$request->input('datePerformance'))->format('Y-m-d');
+        $performance->hour = Carbon::createFromFormat('H:i',$request->input('hourPerformance'))->format('H:i:s');
+        $performance->seatingType = $request->input('seatingType');
+        $performance->page_content = $request->input('page_content');
+        if (!($request->input('performanceEnabled') == null))
+        {
+            $performance->enabled = "true";
+        }
+
+        $performance->save();
+        return redirect()
+            ->action('BackendController@ShowPerformance')
+            ->with('status', 'Voorstelling "' . $performance->date . " " . $performance->hour . '" successvol toegevoed')
+            ->withInput();
+    }
+    public function ShowPerformanceEdit($id)
     {
-        return 'todo';
+        $performande_active = Performance::find($id);
+        $performande_active->date = Carbon::createFromFormat('Y-m-d',$performande_active->date)->format('d-m-Y');
+        $performande_active->hour = Carbon::createFromFormat('H:i:s',$performande_active->hour)->format('H:i');
+        return view('backend.CRUD.editPerformace', [
+            'id' => $id,
+            'performande_active' => $performande_active]);
+    }
+    public function RequestPerformanceEdit(Request $request, $id)
+    {
+        $error_messages = [
+            'datePerformance.required' => 'Datum opgeven AUB',
+            'hourPerformance.required' => 'Uur opgeven AUB',
+            'seatingType.required' => 'Reservatieplan opgeven AUB',
+            'page_content.required' => 'Geen beschrijving opgegeven, gelive extra info op te geven',
+        ];
+        $validator = Validator::make($request->all(), [
+            'datePerformance' => 'required',
+            'hourPerformance' => 'required',
+            'seatingType' => 'required',
+            'page_content' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, create new
+        $performance = Performance::find($id);
+        $performance->date = Carbon::createFromFormat('d-m-Y',$request->input('datePerformance'))->format('Y-m-d');
+        $performance->hour = Carbon::createFromFormat('H:i',$request->input('hourPerformance'))->format('H:i:s');
+        $performance->seatingType = $request->input('seatingType');
+        $performance->page_content = $request->input('page_content');
+        if (!($request->input('performanceEnabled') == null))
+        {
+            $performance->enabled = "true";
+        }
+
+        $performance->save();
+        return redirect()
+            ->action('BackendController@ShowPerformance')
+            ->with('status', 'Voorstelling "' . $performance->date . " " . $performance->hour . '" successvol bijgewerkt')
+            ->withInput();
+    }
+    public function ShowPerformanceDelete($id)
+    {
+        $performance = Performance::find($id);
+        return view('backend.CRUD.deletePerformance', [
+            'performance' => $performance]);
+    }
+    public function RequestPerformanceDelete($id, Request $request)
+    {
+        $error_messages = [
+            'confirmDelete.required' => 'U moet de checkbox aanvinken om verwijdering te bevestigen.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'confirmDelete' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, update entry
+        $performance = Performance::find($id);
+        Performance::destroy($id);
+
+        return redirect()
+            ->action('BackendController@ShowPerformance')
+            ->with('status', 'Voorstelling "' . $performance->date . " " . $performance->hour . '" successvol verwijderd')
+            ->withInput();
     }
     public function ShowPage()
     {
@@ -172,7 +301,15 @@ class BackendController extends Controller
     }
     public function ShowLog()
     {
-        return 'todo';
+        $log = SentMail::get();
+        return view('backend.CRUD.listLog', [
+            'log' => $log]);
+    }
+    public function ShowLogItem($id)
+    {
+        $log = SentMail::find($id);
+        return view('backend.CRUD.listLogItem', [
+            'log' => $log]);
     }
 
 

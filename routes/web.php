@@ -57,6 +57,7 @@ Route::get('/beheer/reservation/performance/{performance_id}', 'BackendControlle
 Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
 
 Route::get('/beheer/log', 'BackendController@ShowLog');
+Route::get('/beheer/log/{id}', 'BackendController@ShowLogItem');
 
 
 //Test Routes

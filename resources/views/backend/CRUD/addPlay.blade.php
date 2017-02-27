@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('playEnabled') ? ' has-error' : '' }}">
-                        <label for="eventName" class="col-md-4 control-label">Enabled: </label>
+                        <label for="eventName" class="col-md-4 control-label">Ingeschakeld: </label>
 
                         <div class="col-md-6">
                             <div class="checkbox">
@@ -53,6 +53,27 @@
                                         <strong>{{ $errors->first('playEnabled') }}</strong>
                                 </span>
                             @endif
+                        </div>
+                    </div>
+                    <div class="form-group{{ $errors->has('page_content') ? ' has-error' : '' }}">
+                        <label for="eventName" class="col-md-4 control-label">Toneelstuk Beschrijving: </label>
+                        <div class="col-md-6">
+
+                        Deze info komt op de voorpagina te staan
+
+
+                        @if ($errors->has('page_content'))
+                            <span class="help-block">
+                                        <strong>{{ $errors->first('page_content') }}</strong>
+                                </span>
+                        @endif
+                        </div>
+
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <textarea name="page_content" id="summernote"></textarea>
                         </div>
                     </div>
                     <div class="form-group">

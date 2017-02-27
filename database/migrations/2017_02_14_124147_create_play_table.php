@@ -11,7 +11,9 @@ class CreatePlayTable extends Migration {
 			$table->increments('id');
 			$table->enum('enabled', array('false', 'true'));
 			$table->string('name');
-		});
+            $table->text('page_content')->nullable();
+
+        });
 	}
 
 	public function down()
