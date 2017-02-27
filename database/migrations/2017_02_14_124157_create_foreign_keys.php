@@ -10,28 +10,28 @@ class CreateForeignKeys extends Migration {
 	{
 		Schema::table('performance', function(Blueprint $table) {
 			$table->foreign('play_id')->references('id')->on('play')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('reservationCustomer', function(Blueprint $table) {
 			$table->foreign('performance_id')->references('id')->on('performance')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
 			$table->foreign('seat_id')->references('id')->on('seat')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
 			$table->foreign('reservation_customer_id')->references('id')->on('reservationCustomer')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('seatReservation', function(Blueprint $table) {
 			$table->foreign('performance_id')->references('id')->on('performance')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 	}
 

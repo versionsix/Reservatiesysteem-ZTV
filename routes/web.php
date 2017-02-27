@@ -43,7 +43,11 @@ Route::post('/beheer/play/{id}/delete', 'BackendController@RequestPlayDelete');
 
 Route::get('/beheer/performance', 'BackendController@ShowPerformance');
 Route::get('/beheer/performance/add', 'BackendController@ShowPerformanceAdd');
-Route::get('/beheer/performance/{id}', 'BackendController@ShowPerformanceEdit');
+Route::post('/beheer/performance/add', 'BackendController@RequestPerformanceAdd');
+Route::get('/beheer/performance/{id}/edit', 'BackendController@ShowPerformanceEdit');
+Route::post('/beheer/performance/{id}/edit', 'BackendController@RequestPerformanceEdit');
+Route::get('/beheer/performance/{id}/delete', 'BackendController@ShowPerformanceDelete');
+Route::post('/beheer/performance/{id}/delete', 'BackendController@RequestPerformanceDelete');
 
 Route::get('/beheer/page', 'BackendController@ShowPage');
 Route::get('/beheer/page/{id}', 'BackendController@ShowPageEdit');

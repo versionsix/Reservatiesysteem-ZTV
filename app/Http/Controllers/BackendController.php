@@ -60,8 +60,12 @@ class BackendController extends Controller
         //Else if no errors, create new
         $play = new Play();
         $play->name = $request->input('name');
-        if ($request->input('playEnabled') == null)
+        if (!($request->input('playEnabled') == null))
+        {
             $play->enabled = "true";
+            Play::where('enabled', '=', 'true')->update(['enabled' => 'false']);
+        }
+
         $play->save();
         return redirect()
             ->action('BackendController@ShowPlay')
@@ -77,10 +81,10 @@ class BackendController extends Controller
     public function RequestPlayEdit($id, Request $request)
     {
         $error_messages = [
-            'confirmDelete.required' => 'U moet de checkbox aanvinken om verwijdering te bevestigen.',
+            'name.required' => 'Geen naam opgegeven, gelive een naam op te geven',
         ];
         $validator = Validator::make($request->all(), [
-            'confirmDelete' => 'required',
+            'name' => 'required',
         ], $error_messages);
 
         if ($validator->fails()) {
@@ -94,6 +98,7 @@ class BackendController extends Controller
         if ($request->input('playEnabled') != null)
         {
             $play->enabled = "true";
+            Play::where('enabled', '=', 'true')->update(['enabled' => 'false']);
         }else{
             $play->enabled = "false";
         }
@@ -126,18 +131,11 @@ class BackendController extends Controller
         }
         //Else if no errors, update entry
         $play = Play::find($id);
-        $play->name = $request->input('name');
-        if ($request->input('playEnabled') != null)
-        {
-            $play->enabled = "true";
-        }else{
-            $play->enabled = "false";
-        }
+        Play::destroy($id);
 
-        $play->save();
         return redirect()
             ->action('BackendController@ShowPlay')
-            ->with('status', 'Voorstelling "' . $play->name . '" successvol bijgewerkt')
+            ->with('status', 'Voorstelling "' . $play->name . '" successvol verwijderd')
             ->withInput();
     }
     public function ShowPerformance()

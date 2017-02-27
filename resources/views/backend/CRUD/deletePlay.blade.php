@@ -11,6 +11,7 @@
                 <h4>Toneelstuk "{{$play->name}}" verwijderen</h4>
             </div>
             <div class="panel-body">
+                WAARSCHUWING! Deze actie is permanent. Bij het verwijderen van een toneelstuk worden ook alle onderliggende reservaties en voorstellingen verwijderd! <hr>
                 <form class="form-horizontal" role="form" method="POST"
                       action="{{ action("BackendController@ShowPlayDelete", $play->id) }}">
                     {{ csrf_field() }}
