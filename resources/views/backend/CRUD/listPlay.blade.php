@@ -20,7 +20,7 @@
                 @if (count($request->old()) > 0)
                     <div class="alert alert-success">
                         <ul>
-                            Toneelstuk {{$request->old('name')}} successvol toegevoegd!
+                            {{ session('status') }}
                         </ul>
                     </div>
                 @endif
@@ -39,8 +39,8 @@
                         <tr>
                             <td>{{ $play_item->name }}</td>
                             <td>{{ $play_item->enabled == 'true' ? "Ja" : "Nee"}}</td>
-                            <td class="action"><a href="#" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span> Bewerk</a></td>
-                            <td class="action"><a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
+                            <td class="action"><a href="{{action('BackendController@ShowPlayEdit', $play_item->id)}}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span> Bewerk</a></td>
+                            <td class="action"><a href="{{action('BackendController@ShowPlayDelete', $play_item->id)}}" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
                         </tr>
                     @endforeach
 
