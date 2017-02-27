@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Play;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class BackendController extends Controller
@@ -16,22 +18,80 @@ class BackendController extends Controller
         return view('backend/beheer');
     }
 
-Route::get('/beheer/play', 'BackendController@ShowPlay');
-Route::get('/beheer/play/add', 'BackendController@ShowPlayAdd');
-Route::get('/beheer/play/{id}', 'BackendController@ShowPlayEdit');
+    public function ShowPlay(Request $request)
+    {
+        $play = Play::get();
+        \Debugbar::info('<pre>{{json_encode($play, JSON_PRETTY_PRINT)}}</pre>');
+        return view('backend.CRUD.listPlay', [
+            'request' => $request,
+            'play' => $play]);
+    }
+    public function ShowPlayAdd()
+    {
+        return view('backend.CRUD.addPlay');
+    }
+    public function RequestPlayAdd(Request $request)
+    {
+        $error_messages = [
+            'name.required' => 'Geen naam opgegeven, gelive een naam op te geven',
+        ];
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ], $error_messages);
 
-Route::get('/beheer/performance', 'BackendController@ShowPerformance');
-Route::get('/beheer/performance/add', 'BackendController@ShowPerformanceAdd');
-Route::get('/beheer/performance/{id}', 'BackendController@ShowPerformanceEdit');
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, create new
+        $play = new Play();
+        $play->name = $request->input('name');
+        if ($request->input('playEnabled') == null)
+            $play->name = "true";
+        $play->save();
+        return redirect()->action('BackendController@ShowPlay')->withInput();
+    }
+    public function ShowPlayEdit()
+    {
+        return 'todo';
+    }
+    public function ShowPerformance()
+    {
+        return 'todo';
+    }
+    public function ShowPerformanceAdd()
+    {
+        return 'todo';
+    }
+    public function ShowPerformanceEdit()
+    {
+        return 'todo';
+    }
+    public function ShowPage()
+    {
+        return 'todo';
+    }
+    public function ShowPageEdit()
+    {
+        return 'todo';
+    }
+    public function ShowReservation()
+    {
+        return 'todo';
+    }
+    public function ShowPerformanceReservation()
+    {
+        return 'todo';
+    }
+    public function ShowReservationEdit()
+    {
+        return 'todo';
+    }
+    public function ShowLog()
+    {
+        return 'todo';
+    }
 
-Route::get('/beheer/page', 'BackendController@ShowPage');
-Route::get('/beheer/page/{id}', 'BackendController@ShowPageEdit');
-
-Route::get('/beheer/reservation', 'BackendController@ShowReservation');
-Route::get('/beheer/reservation/add', 'BackendController@ShowPerformanceAdd');
-Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');
-Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
-
-Route::get('/beheer/log', 'BackendController@ShowLog');
 
 }

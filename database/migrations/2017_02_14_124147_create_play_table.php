@@ -9,7 +9,7 @@ class CreatePlayTable extends Migration {
 	{
 		Schema::create('play', function(Blueprint $table) {
 			$table->increments('id');
-			$table->enum('enabled', array('true', 'false'));
+			$table->enum('enabled', array('false', 'true'));
 			$table->string('name');
 		});
 	}

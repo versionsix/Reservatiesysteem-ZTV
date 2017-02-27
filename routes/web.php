@@ -35,6 +35,7 @@ Route::get('/beheer', 'BackendController@ShowBeheer');
 
 Route::get('/beheer/play', 'BackendController@ShowPlay');
 Route::get('/beheer/play/add', 'BackendController@ShowPlayAdd');
+Route::post('/beheer/play/add', 'BackendController@RequestPlayAdd');
 Route::get('/beheer/play/{id}', 'BackendController@ShowPlayEdit');
 
 Route::get('/beheer/performance', 'BackendController@ShowPerformance');
@@ -45,7 +46,6 @@ Route::get('/beheer/page', 'BackendController@ShowPage');
 Route::get('/beheer/page/{id}', 'BackendController@ShowPageEdit');
 
 Route::get('/beheer/reservation', 'BackendController@ShowReservation');
-Route::get('/beheer/reservation/add', 'BackendController@ShowPerformanceAdd');
 Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');
 Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
 

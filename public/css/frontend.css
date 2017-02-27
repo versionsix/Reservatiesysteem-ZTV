@@ -49,8 +49,18 @@
     position: fixed;
 }
 
-@media (min-width: 1200px) {
-    .backend{
-        max-width: 970px;
-    }
+/*@media (min-width: 1200px) {*/
+    /*.backend{*/
+        /*max-width: 970px;*/
+    /*}*/
+/*}*/
+
+h4 {
+    display: inline-block;
+}
+.action
+{
+    width: 100px;
+    text-align:right;
+    white-space: nowrap;
 }
