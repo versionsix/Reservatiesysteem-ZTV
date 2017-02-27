@@ -20,7 +20,7 @@
                 @if (count($play) == 0)
                     Sorry, geen gevonden. Voeg er een toe met de knop voeg toe.
                 @endif
-                @if (count($request->old()) > 0)
+                @if (session('status') != null)
                     <div class="alert alert-success">
                         <ul>
                             {{ session('status') }}

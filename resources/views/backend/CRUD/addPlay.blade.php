@@ -73,7 +73,16 @@
                     <div class="row justify-content-md-center">
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
-                            <textarea name="page_content" id="summernote"></textarea>
+                            <textarea name="page_content" id="summernote">
+                                <div class="text-center">
+                <h1>Zammelse Toneel Vrienden </h1>
+                <p class="lead">Welkom op de pagina van de toneelreservaties. Hieronder is een overzicht van de data.
+                    Selecteer je datum en vervolgens kan je je zitplaats selecteren. Je krijgt per mail een
+                    bevestiging.</p>
+                <p></p>
+                </div>
+
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-group">

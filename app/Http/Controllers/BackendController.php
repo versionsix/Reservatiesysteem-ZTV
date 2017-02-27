@@ -147,6 +147,11 @@ class BackendController extends Controller
     }
     public function ShowPerformance(Request $request)
     {
+        if (Play::where('enabled', '=', 'true')->count() == 0)
+            return redirect()
+                ->action('BackendController@ShowPlay')
+                ->with('status', 'Voeg een toneelstuk toe, of selecteer een toneelstuk als ingschakeld.')
+                ->withInput();
         $play_active = Play::where('enabled', '=', 'true')->first();
         $performance = Performance::where('play_id', '=', $play_active->id)->get();
 

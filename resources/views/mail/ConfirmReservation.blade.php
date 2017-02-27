@@ -1,7 +1,7 @@
 @extends('mail.base')
 
 @section('content')
-    <p>Beste Voornaam, Achternaam,</p>
+    <p>Beste {{$reservationCustomer->firstName}} {{$reservationCustomer->surName}},</p>
     <p>Wij hebben uw reservatie goed ontvangen. Volgende informatie is geregistreerd:</p>
     <p>
     <table border="0">

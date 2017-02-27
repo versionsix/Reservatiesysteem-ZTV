@@ -12,13 +12,7 @@ setlocale(LC_TIME, 'Dutch')
     <div class="container">
         <div class="row">
             <div class="col-lg-12 ">
-                <div class="text-center">
-                <h1>Zammelse Toneel Vrienden </h1>
-                <p class="lead">Welkom op de pagina van de toneelreservaties. Hieronder is een overzicht van de data.
-                    Selecteer je datum en vervolgens kan je je zitplaats selecteren. Je krijgt per mail een
-                    bevestiging.</p>
-                <p></p>
-                </div>
+                {!! $play->page_content !!}
                 <hr>
                 <!--
                 Haal alle evenementen op uit de database.

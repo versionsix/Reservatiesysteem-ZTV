@@ -18,6 +18,7 @@
             <div class="panel-heading">
                 <h4>Zitje reserveren: {{$performance->play->name}}, {{$performance->date}} {{$performance->hour}}</h4></div>
             <div class="panel-body">
+                {!! $performance->page_content !!}
                 <p>
                 Op deze pagina kan je je zitje(s) selcteren die je wil reserveren.
                 Klik de gewenste zitje(s) aan. Zodra je alle zitjes geselcteerd hebt klik je onderaan op volgende.</p>

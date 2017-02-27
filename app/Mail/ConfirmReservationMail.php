@@ -62,12 +62,14 @@ class ConfirmReservationMail extends Mailable
         $performance = Performance::with('play')->find($id);
         $performance->date = Carbon::createFromFormat('Y-m-d', $performance->date)->formatLocalized('%A %d %B %Y');
         $performance->hour = Carbon::createFromFormat('H:i:s', $performance->hour)->format('H.i \u\u\r');
-        $content_vars = ['reservationCustomer' => $this->reservationCustomer,'seats' => $seats];
+        $content_vars = ['reservationCustomer' => $this->reservationCustomer, 'performance' => $performance, 'seats' => $seats];
+        $with = ['reservationCustomer' => $this->reservationCustomer, 'seats' => $seats];
+
         //Save mail also to DB
         $sentMail = new SentMail();
         $sentMail->name_to = $this->name_to;
         $sentMail->email_to = $this->email_to;
-        $sentMail->email_content = json_encode($content_vars);
+        $sentMail->email_content = json_encode($with);
         $sentMail->save();
         \Debugbar::addMessage(json_encode($seats));
         \Debugbar::info($content_vars);

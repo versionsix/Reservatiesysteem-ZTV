@@ -13,11 +13,18 @@ class BaseDataSeeder extends Seeder
     {
         //Maak login user aan
         $this->call(UsersTableSeeder::class);
-
+        $page_content = ' <div class="text-center"><h1>Zammelse Toneel Vrienden </h1>
+                <p class="lead">Welkom op de pagina van de toneelreservaties. Hieronder is een overzicht van de data.
+                    Selecteer je datum en vervolgens kan je je zitplaats selecteren. Je krijgt per mail een
+                    bevestiging.</p>
+                <p></p>
+                </div>
+            ';
         //Seed default Play
         DB::table('play')->insert([
             'enabled' => 'true',
             'name' => 'Example Play',
+            'page_content' => $page_content,
         ]);
 
         //Seed default performance
