@@ -77,10 +77,10 @@ class BackendController extends Controller
     public function RequestPlayEdit($id, Request $request)
     {
         $error_messages = [
-            'name.required' => 'Geen naam opgegeven, gelive een naam op te geven',
+            'confirmDelete.required' => 'U moet de checkbox aanvinken om verwijdering te bevestigen.',
         ];
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'confirmDelete' => 'required',
         ], $error_messages);
 
         if ($validator->fails()) {
@@ -109,6 +109,36 @@ class BackendController extends Controller
         $play = Play::find($id);
         return view('backend.CRUD.deletePlay', [
             'play' => $play]);
+    }
+    public function RequestPlayDelete($id, Request $request)
+    {
+        $error_messages = [
+            'confirmDelete.required' => 'U moet de checkbox aanvinken om verwijdering te bevestigen.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'confirmDelete' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, update entry
+        $play = Play::find($id);
+        $play->name = $request->input('name');
+        if ($request->input('playEnabled') != null)
+        {
+            $play->enabled = "true";
+        }else{
+            $play->enabled = "false";
+        }
+
+        $play->save();
+        return redirect()
+            ->action('BackendController@ShowPlay')
+            ->with('status', 'Voorstelling "' . $play->name . '" successvol bijgewerkt')
+            ->withInput();
     }
     public function ShowPerformance()
     {

@@ -39,6 +39,7 @@ Route::post('/beheer/play/add', 'BackendController@RequestPlayAdd');
 Route::get('/beheer/play/{id}/edit', 'BackendController@ShowPlayEdit');
 Route::post('/beheer/play/{id}/edit', 'BackendController@RequestPlayEdit');
 Route::get('/beheer/play/{id}/delete', 'BackendController@ShowPlayDelete');
+Route::post('/beheer/play/{id}/delete', 'BackendController@RequestPlayDelete');
 
 Route::get('/beheer/performance', 'BackendController@ShowPerformance');
 Route::get('/beheer/performance/add', 'BackendController@ShowPerformanceAdd');
