@@ -364,9 +364,58 @@ class BackendController extends Controller
             'performance' => $performance,
             'filtered' => true,
             'reservationCustomer' => $reservationCustomer]);    }
-    public function ShowReservationEdit()
+    public function ShowReservationEdit($reservation_id)
     {
-        return 'todo';
+        $reservationCustomer = ReservationCustomer::find($reservation_id);
+        return view('backend.CRUD.editReservationCustomer', [
+            'reservationCustomer' => $reservationCustomer]);
     }
+    public function RequestReservationEdit(Request $request, $reservation_id)
+    {
 
+        $error_messages = [
+            'firstName.required' => 'Vul a.u.b. een voornaam in.',
+            'surName.required' => 'Vul a.u.b. een achternaam in.',
+            'address1.required' => 'Vul a.u.b. een adres in.',
+            'email.between' => 'Vul a.u.b. een geldige email in.',
+            'email.email' => 'Vul a.u.b. een geldige email in.',
+            'email.required' => 'Vul a.u.b. een email in.',
+            'zipCode.required' => 'Vul a.u.b. een postcode in.',
+            'zipCode.min' => 'Een postcode moet minimaal 4 karakters lang zijn.',
+            'telephoneNumber.required' => 'Vul a.u.b. een telefoonnummer in.',
+            'telephoneNumber.min' => 'Een telefoonnummer moet minimaal 8 karakters lang zijn.',
+            'place.required' => 'Vul a.u.b. een gemeente in.',
+
+        ];
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required',
+            'surName' => 'required',
+            'address1' => 'required|min:2',
+            'place' => 'required',
+            'zipCode' => 'required:min:4',
+            'email' => 'Required|Between:3,254|Email',
+            'telephoneNumber' => 'required|min:8',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, create new
+        $reservationCustomer = ReservationCustomer::find($reservation_id);
+        $reservationCustomer->firstName = $request->input('firstName');
+        $reservationCustomer->surName = $request->input('surName');
+        $reservationCustomer->address1 = $request->input('address1');
+        $reservationCustomer->place = $request->input('place');
+        $reservationCustomer->zipCode = $request->input('zipCode');
+        $reservationCustomer->email = $request->input('email');
+        $reservationCustomer->telephoneNumber = $request->input('telephoneNumber');
+        $reservationCustomer->comment = $request->input('comment');
+
+        $reservationCustomer->save();
+        return redirect()
+            ->action('BackendController@ShowReservation')
+            ->with('status', 'Reservatie van  "' . $reservationCustomer->firstName . " " . $reservationCustomer->surName . '" successvol bijgewerkt')
+            ->withInput();    }
 }
