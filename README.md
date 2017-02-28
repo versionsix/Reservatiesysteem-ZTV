@@ -10,9 +10,18 @@ wachtwoord goed, in de volgende stap hebben we dit nodig.
 ```
 apt-get update
 apt-get upgrade
+```
+Gebruik volgende op een systeem met ubuntu LTS
+```
 apt-get install -y php7.0 php7.0-mcrypt php7.0-gd zip unzip php7.0-zip
 apt-get install -y apache2 libapache2-mod-php7.0
 apt-get install -y mysql-server php7.0-mysql
+```
+Gebruik volgende op een systeem met debian jessie
+```
+apt-get install -y php5 php5-mcrypt php5-gd zip unzip php5-zip
+apt-get install -y apache2 libapache2-mod-php5
+apt-get install -y mysql-server php5-mysql
 ```
 
 We maken alvast een mysql-database aan met bijbehorende login(username: reservatiesysteem, wachtwoord: reservatiesysteemPW!)
