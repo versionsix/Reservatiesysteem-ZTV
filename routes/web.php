@@ -57,6 +57,8 @@ Route::get('/beheer/reservation', 'BackendController@ShowReservation');
 Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');
 Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
 Route::post('/beheer/reservation/edit/{reservation_id}', 'BackendController@RequestReservationEdit');
+Route::get('/beheer/reservation/delete/{reservation_id}', 'BackendController@ShowReservationDelete');
+    Route::post('/beheer/reservation/delete/{reservation_id}', 'BackendController@RequestReservationDelete');
 
 Route::get('/beheer/log', 'BackendController@ShowLog');
 Route::get('/beheer/log/{id}', 'BackendController@ShowLogItem');

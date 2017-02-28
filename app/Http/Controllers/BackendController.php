@@ -417,5 +417,35 @@ class BackendController extends Controller
         return redirect()
             ->action('BackendController@ShowReservation')
             ->with('status', 'Reservatie van  "' . $reservationCustomer->firstName . " " . $reservationCustomer->surName . '" successvol bijgewerkt')
-            ->withInput();    }
+            ->withInput();
+    }
+    public function ShowReservationDelete($reservation_id)
+    {
+        $reservationCustomer = ReservationCustomer::find($reservation_id);
+        return view('backend.CRUD.deleteReservationCustomer', [
+            'reservationCustomer' => $reservationCustomer]);
+    }
+    public function RequestReservationDelete($reservation_id, Request $request)
+    {
+        $error_messages = [
+            'confirmDelete.required' => 'U moet de checkbox aanvinken om verwijdering te bevestigen.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'confirmDelete' => 'required',
+        ], $error_messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //Else if no errors, update entry
+        $reservationCustomer = ReservationCustomer::find($reservation_id);
+        ReservationCustomer::destroy($reservation_id);
+
+        return redirect()
+            ->action('BackendController@ShowReservation')
+            ->with('status', 'Reservatie "' . $reservationCustomer->firstName . " " . $reservationCustomer->surName . '" successvol verwijderd')
+            ->withInput();
+    }
 }

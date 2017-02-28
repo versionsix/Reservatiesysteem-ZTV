@@ -24,6 +24,7 @@
                     <tr>
                         <th>Naam</th>
                         <th>Email</th>
+                        <th>Datum</th>
                         <th>Actie</th>
                     </tr>
                     </thead>
@@ -33,6 +34,7 @@
                         <tr>
                             <td>{{ $log_item->name_to }}</td>
                             <td>{{ $log_item->email_to}}</td>
+                            <td>{{ $log_item->created_at}}</td>
                             <td class="action"><a href="{{action('BackendController@ShowLogItem', $log_item->id)}}"
                                                   class="btn btn-xs btn-primary"><span
                                             class="glyphicon glyphicon-new-window"></span> Geef weer</a></td>

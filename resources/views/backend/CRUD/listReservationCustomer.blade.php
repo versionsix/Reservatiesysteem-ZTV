@@ -103,7 +103,7 @@
                                             class="btn btn-xs btn-primary no-print"><span
                                                 class="glyphicon glyphicon-edit"></span> Bewerk</a></td>
                                 <td class="action"><a
-                                            href="{{action('BackendController@ShowReservationEdit', $reservationCustomer_item->id)}}"
+                                            href="{{action('BackendController@ShowReservationDelete', $reservationCustomer_item->id)}}"
                                             class="btn btn-xs btn-danger no-print"><span
                                                 class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
                             </tr>
