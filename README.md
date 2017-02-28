@@ -19,7 +19,7 @@ apt-get install -y mysql-server php7.0-mysql
 ```
 Gebruik volgende op een systeem met debian jessie
 ```
-apt-get install -y php5 php5-mcrypt php5-gd zip unzip php5-zip
+apt-get install -y php5 php5-mcrypt php5-gd zip unzip zip
 apt-get install -y apache2 libapache2-mod-php5
 apt-get install -y mysql-server php5-mysql
 ```
