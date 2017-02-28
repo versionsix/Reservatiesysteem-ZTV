@@ -77,4 +77,31 @@ Normaalgezien is alles nu correct ingesteld. Alvorens de webserver te configurer
 php artisan serve --host 0.0.0.0
 ```
 ---
-Om alles aan de gebruiker beschikbaar te stellen 
+Om alles aan de gebruiker beschikbaar te stellen stellen we de webserver in;
+```
+nano /etc/apache2/sites-available/000-default.conf
+
+        DocumentRoot /var/www/Reservatiesysteem-ZTV/public
+                <Directory /var/www/Reservatiesysteem-ZTV>
+                        AllowOverride All
+                </Directory>
+```
+We moeten ook mod_rewrite aanzetten
+```
+a2enmod rewrite
+```
+Herstart apache om alles te configureren
+```
+service apache2 restart
+```
+
+
+Normaalgezien werkt de site nu naar behoren. Test het uit!
+Default backend login: test@example.com wachtwoord: secure
+
+###Opmerkingen
+Als de tekst op de homepagina in het engels is ,wil dit zeggen dat het systeem geen locale heeft voor nederlands. stel nl_NL en nl_BE in via
+```
+sudo dpkg-reconfigure locales
+```
+Als de webpagina die wordt geladen plain php is, zorg dan zeker dat het directory-directive is opgegeven in apache.
