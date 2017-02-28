@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Page;
 use App\Performance;
 use App\Play;
+use App\ReservationCustomer;
 use App\SentMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -322,18 +323,7 @@ class BackendController extends Controller
             ->with('status', 'Pagina  "' . $page->name . '" successvol bijgewerkt')
             ->withInput();
     }
-    public function ShowReservation()
-    {
-        return 'todo';
-    }
-    public function ShowPerformanceReservation()
-    {
-        return 'todo';
-    }
-    public function ShowReservationEdit()
-    {
-        return 'todo';
-    }
+
     public function ShowLog()
     {
         $log = SentMail::get();
@@ -347,5 +337,36 @@ class BackendController extends Controller
             'log' => $log]);
     }
 
+    public function ShowReservation()
+    {
+        $reservationCustomer = ReservationCustomer::with('seatReservation.performance.play', 'seatReservation.seat')->get();
+        \Debugbar::info($reservationCustomer);
+        $play_active = Play::where('enabled', '=', 'true')->first();
+        $performance = Performance::where('play_id', '=', $play_active->id)->get();
+//        $performance = Performance::where('play_id', '=', $play_active->id)->get();
+        return view('backend.CRUD.listReservationCustomer', [
+            'performance' => $performance,
+            'filtered' => false,
+            'reservationCustomer' => $reservationCustomer]);
+    }
+    public function ShowPerformanceReservation($performance_id)
+    {
+        $reservationCustomer = ReservationCustomer::with('seatReservation.performance.play', 'seatReservation.seat')
+            ->whereHas('seatReservation.performance', function ($query) use ($performance_id){
+                $query->where('id', '=', $performance_id);
+            })
+            ->get();
+        \Debugbar::info($reservationCustomer);
+        $play_active = Play::where('enabled', '=', 'true')->first();
+        $performance = Performance::where('play_id', '=', $play_active->id)->get();
+//        $performance = Performance::where('play_id', '=', $play_active->id)->get();
+        return view('backend.CRUD.listReservationCustomer', [
+            'performance' => $performance,
+            'filtered' => true,
+            'reservationCustomer' => $reservationCustomer]);    }
+    public function ShowReservationEdit()
+    {
+        return 'todo';
+    }
 
 }
