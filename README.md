@@ -97,7 +97,7 @@ service apache2 restart
 
 
 Normaalgezien werkt de site nu naar behoren. Test het uit!
-Default backend login: test@example.com wachtwoord: secure
+Default backend login: test@example.com wachtwoord: secret
 
 ###Opmerkingen
 Als de tekst op de homepagina in het engels is ,wil dit zeggen dat het systeem geen locale heeft voor nederlands. stel nl_NL en nl_BE in via
