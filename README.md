@@ -19,9 +19,7 @@ apt-get install -y mysql-server php7.0-mysql
 ```
 Gebruik volgende op een systeem met debian jessie
 ```
-apt-get install -y php5 php5-mcrypt php5-gd zip unzip zip
-apt-get install -y apache2 libapache2-mod-php5
-apt-get install -y mysql-server php5-mysql
+apt-get install -y php5 php5-mcrypt php5-gd zip unzip zip apache2 libapache2-mod-php5 mysql-server php5-mysql
 ```
 
 We maken alvast een mysql-database aan met bijbehorende login(username: reservatiesysteem, wachtwoord: reservatiesysteemPW!)
@@ -33,7 +31,7 @@ Enter password: (wachtwoord van hierboven)
 mysql>
 
 CREATE DATABASE reservatiesysteem;
-GRANT ALL PRIVILEGES ON reservatiesysteem.* TO 'reservatiesysteem'@'localhost' identified by 'reservatiesysteemPW!';
+GRANT ALL PRIVILEGES ON reservatiesysteem.* TO 'reservatiesys'@'localhost' identified by 'reservatiesysteemPW!';
 ```
 Vervolgens gaan we de broncode van het reservatiesysteem downloaden.
 
@@ -43,10 +41,10 @@ git clone https://github.com/xenefix/Reservatiesysteem-ZTV.git
 ```
 We stellen de juiste file-permissies in:
 ```
-sudo chown -R www-data:www-data /var/www/Reservatiesysteem-ZTV
+chown -R www-data:www-data /var/www/Reservatiesysteem-ZTV
 cd /var/www/Reservatiesysteem-ZTV
-sudo chgrp -R www-data storage bootstrap/cache
-sudo chmod -R ug+rwx storage bootstrap/cache
+chgrp -R www-data storage bootstrap/cache
+chmod -R ug+rwx storage bootstrap/cache
 ```
 
 
@@ -66,7 +64,7 @@ Bewerk het .env bestand met de database informatie van de server, alsook een smt
 nano /var/www/Reservatiesysteem-ZTV/.env
 
 DB_DATABASE=reservatiesysteem
-DB_USERNAME=reservatiesysteem
+DB_USERNAME=reservatiesys
 DB_PASSWORD=reservatiesysteemPW!
 
 MAIL_HOST=mailtrap.io
@@ -111,6 +109,6 @@ Default backend login: test@example.com wachtwoord: secret
 ###Opmerkingen
 Als de tekst op de homepagina in het engels is ,wil dit zeggen dat het systeem geen locale heeft voor nederlands. stel nl_NL en nl_BE in via
 ```
-sudo dpkg-reconfigure locales
+dpkg-reconfigure locales
 ```
 Als de webpagina die wordt geladen plain php is, zorg dan zeker dat het directory-directive is opgegeven in apache.

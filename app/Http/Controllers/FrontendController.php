@@ -75,6 +75,7 @@ class FrontendController extends Controller
             'play' => $play]);
     }
 
+
     public function ShowContactpage()
     {
         $page = Page::where('name', '=', 'contact')->first();
