@@ -10,6 +10,7 @@ use App\SentMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BackendController extends Controller
 {
@@ -339,9 +340,15 @@ class BackendController extends Controller
 
     public function ShowReservation()
     {
-        $reservationCustomer = ReservationCustomer::with('seatReservation.performance.play', 'seatReservation.seat')->get();
-        \Debugbar::info($reservationCustomer);
         $play_active = Play::where('enabled', '=', 'true')->first();
+
+        $reservationCustomer = ReservationCustomer::with('seatReservation.performance.play', 'seatReservation.seat')
+            ->whereHas('seatReservation.performance', function ($query) use ($play_active){
+                $query->where('play_id', '=', $play_active->id);
+            })
+            ->get();
+        \Debugbar::info(json_encode($play_active,JSON_PRETTY_PRINT));
+
         $performance = Performance::where('play_id', '=', $play_active->id)->get();
 //        $performance = Performance::where('play_id', '=', $play_active->id)->get();
         return view('backend.CRUD.listReservationCustomer', [
@@ -447,5 +454,46 @@ class BackendController extends Controller
             ->action('BackendController@ShowReservation')
             ->with('status', 'Reservatie "' . $reservationCustomer->firstName . " " . $reservationCustomer->surName . '" successvol verwijderd')
             ->withInput();
+    }
+    public function ExcelExportPerformance($performance_id)
+    {
+        $performance = Performance::with('play')->find($performance_id);
+        $reservationCustomer = ReservationCustomer::with('seatReservation.seat')
+            ->whereHas('seatReservation.performance', function ($query) use ($performance_id){
+                $query->where('id', '=', $performance_id);
+            })
+            ->get();
+        \Debugbar::info($reservationCustomer);
+        foreach ($reservationCustomer as $resCus){
+            $seats = "";
+            foreach ($resCus->seatReservation as $seat){
+                $seats .= $seat->seat->seatNumber . ", ";
+            }
+            $resCus->zitjes = $seats;
+            unset($resCus->token);
+            unset($resCus->performance_id);
+            unset($resCus->token);
+            unset($resCus->created_at);
+            unset($resCus->updated_at);
+        }
+        //return '<pre>' . json_encode($reservationCustomer,JSON_PRETTY_PRINT) . '</pre>';
+        $excel = Excel::create('Excel voorstelling', function($excel) use ($reservationCustomer, $performance){
+
+            $excel->sheet('Excel voorstelling', function($sheet) use($reservationCustomer, $performance){
+
+                $sheet->setOrientation('landscape');
+                $sheet->fromModel($reservationCustomer, null, 'A1', false, false);
+                $sheet->prependRow(1, array(
+                    'Registratie ID', 'Voornaam', 'Achternaam', 'Locatie', 'Gemeente', 'Postcode', 'E-mail', 'Tel. nummer', 'opmerking', 'Zit(jes)'
+                ));
+                $sheet->prependRow(1, array(
+                    'Voorstelling: ', $performance->play->name . ': ' . $performance->date . ' ' . $performance->hour . ''
+                ));
+
+            });
+
+        })->export('xlsx');
+        //return $excel;
+
     }
 }

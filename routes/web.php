@@ -55,6 +55,7 @@ Route::post('/beheer/page/{id}', 'BackendController@RequestPageEdit');
 
 Route::get('/beheer/reservation', 'BackendController@ShowReservation');
 Route::get('/beheer/reservation/performance/{performance_id}', 'BackendController@ShowPerformanceReservation');
+Route::get('/beheer/reservation/performance/{performance_id}/excel', 'BackendController@ExcelExportPerformance');
 Route::get('/beheer/reservation/edit/{reservation_id}', 'BackendController@ShowReservationEdit');
 Route::post('/beheer/reservation/edit/{reservation_id}', 'BackendController@RequestReservationEdit');
 Route::get('/beheer/reservation/delete/{reservation_id}', 'BackendController@ShowReservationDelete');

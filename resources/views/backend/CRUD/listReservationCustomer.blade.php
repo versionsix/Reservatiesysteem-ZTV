@@ -9,36 +9,8 @@
         @if (count($reservationCustomer) == 0)
             <div class="panel panel-default">
 
-            <div class="panel-heading">
-                <h4>Reservaties
-                </h4>
-                <div class="dropdown pull-right">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Filter voorstelling
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        @foreach($performance as $performance_item)
-                            <li>
-                                <a href="{{action('BackendController@ShowPerformanceReservation', $performance_item->id)}}">{{$performance_item->date}} {{$performance_item->hour}}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-                <div class="panel-body">
-                    Sorry, geen voorstelling reservaties gevonden. Voeg er toe.
-                </div>
-            </div>
-        @else
-            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Reservaties
-                        @if($filtered)
-                            "{{ $reservationCustomer[0]->seatReservation[0]->performance->date }}
-                            {{ $reservationCustomer[0]->seatReservation[0]->performance->hour }}"
-                        @endif
                     </h4>
                     <div class="dropdown pull-right">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
@@ -56,9 +28,53 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    Sorry, geen voorstelling reservaties gevonden. Voeg er toe.
+                </div>
+            </div>
+        @else
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Reservaties
+                        @if($filtered)
+                            "{{ $reservationCustomer->first()->seatReservation->first()->performance->date }}
+                            {{ $reservationCustomer->first()->seatReservation->first()->performance->hour }}"
+                        @endif
+                    </h4>
+
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            @if($filtered)
+                                {{ $reservationCustomer->first()->seatReservation->first()->performance->date }}
+                                {{ $reservationCustomer->first()->seatReservation->first()->performance->hour }}
+                            @else
+                            Filter voorstelling
+                            @endif
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a href="{{action('BackendController@ShowReservation')}}">Overzicht</a>
+                            </li>
+                            @foreach($performance as $performance_item)
+                                <li>
+                                    <a href="{{action('BackendController@ShowPerformanceReservation', $performance_item->id)}}">{{$performance_item->date}} {{$performance_item->hour}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @if($filtered)
+                        <a style="margin-right: 5px !important;" target="_blank"
+                           href="{{ action("BackendController@ExcelExportPerformance", $reservationCustomer->first()->seatReservation->first()->performance->id) }}"
+                           class="btn btn-primary btn-success pull-right"><span
+                                    class="glyphicon glyphicon-download"></span> Download excel</a>
+                    @endif
+
+                </div>
+                <div class="panel-body">
                     Op deze pagina kan je de reservaties aanpassen. Het aanpassen van de zitjes is niet mogelijk. Je
                     moet
-                    altijd de volledige reservatie verwijderen.
+                    altijd de volledige reservatie verwijderen. Filter op voorstelling om als excel te exporteren.
                     <br/>
 
                     @if (session('status') != null)
