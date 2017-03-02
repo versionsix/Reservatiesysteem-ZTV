@@ -107,8 +107,13 @@ Normaalgezien werkt de site nu naar behoren. Test het uit!
 Default backend login: test@example.com wachtwoord: secret
 
 ###Opmerkingen
-Als de tekst op de homepagina in het engels is ,wil dit zeggen dat het systeem geen locale heeft voor nederlands. stel nl_NL en nl_BE in via
+- Als de tekst op de homepagina in het engels is ,wil dit zeggen dat het systeem geen locale heeft voor nederlands. stel nl_NL en nl_BE in via
 ```
 dpkg-reconfigure locales
 ```
-Als de webpagina die wordt geladen plain php is, zorg dan zeker dat het directory-directive is opgegeven in apache.
+- Als de webpagina die wordt geladen plain php is, zorg dan zeker dat het directory-directive is opgegeven in apache.
+
+- Na een update kan apache een errormelding geven, dit los je op met het volgende commando:
+```
+chown -R www-data:www-data /var/www/Reservatiesysteem-ZTV
+```
