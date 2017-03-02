@@ -8,7 +8,7 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 visible-lg-block visible-md-block verticaltext">Gangpad</div>
+        <div class="col-md-1 visible-lg-block visible-md-block verticaltext"></div>
         <div class="col-md-10">
             <table class="table table-borderless">
                 <colgroup>
